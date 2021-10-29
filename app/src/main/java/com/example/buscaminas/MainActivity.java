@@ -34,9 +34,9 @@ public class MainActivity extends AppCompatActivity  {
         btnPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // intent = new Intent(MainActivity.this, xyz.class);
-                // intent.putExtra("level", radioButton.getText().toString());
-                //  startActivity(intent);
+                intent = new Intent(MainActivity.this, Game.class);
+                intent.putExtra("level", radioButton.getText().toString());
+                startActivity(intent);
             }
         });
         radioGroup = (RadioGroup) findViewById(R.id.rdbGroup);

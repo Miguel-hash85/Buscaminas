@@ -64,6 +64,7 @@ public class Result extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent intent= new Intent(Result.this, MainActivity.class);
+                startActivity(intent);
                 finish();
 
             }
