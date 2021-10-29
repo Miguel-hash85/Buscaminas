@@ -1,0 +1,25 @@
+<resources>
+    <string name="welcome">Welcome to the Minesweeper</string>
+    <string name="easy">Piece of Cake</string>
+    <string name="medium">Let\'s Rock</string>
+    <string name="hard">Damn, I am Good</string>
+    <string name="play">Play</string>
+    <string name="select">Please select a difficulty level</string>
+
+
+    <string name="app_name">Buscaminas</string>
+    <string name="bombCount">0</string>
+    <string name="help">Help</string>
+    <string name="clock">0</string>
+
+
+
+    <string name="score">SCORE:</string>
+    <string name="points">POINTS</string>
+    <string name="historic">HISTORIC</string>
+    <string name="tryAgain">TRY AGAIN</string>
+    <string name="urlRanking">https://www.xataka.com/videojuegos/el-legendario-buscaminas-sigue-muy-vivo-y-hay-un-campeonato-del-mundo-que-lo-demuestra</string>
+    <string name="txt_intent_app">Elige App</string>
+    <string name="txt_navegador">No hay navegador disponible</string>
+
+</resources>
