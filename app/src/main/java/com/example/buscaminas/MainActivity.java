@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity  {
     private Intent intent;
     private Button btnPlay;
     private RadioButton button;
+    private int level;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +35,9 @@ public class MainActivity extends AppCompatActivity  {
         btnPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // intent = new Intent(MainActivity.this, xyz.class);
-                // intent.putExtra("level", radioButton.getText().toString());
-                //  startActivity(intent);
+                intent = new Intent(MainActivity.this, Game.class);
+                intent.putExtra("Level", level);
+                startActivity(intent);
             }
         });
         radioGroup = (RadioGroup) findViewById(R.id.rdbGroup);
@@ -47,6 +48,19 @@ public class MainActivity extends AppCompatActivity  {
                 int id = radioGroup.getCheckedRadioButtonId();
                 radioButton = (RadioButton) findViewById(id);
                 setFont(radioButton);
+                if(radioButton.equals(findViewById(R.id.rdbEasy))){
+
+                    level=1;
+
+                }else if(radioButton.equals(findViewById(R.id.rdbMedium))){
+
+                    level=2;
+
+                }else{
+
+                    level=3;
+
+                }
                 checkButtons();
             }
         });
