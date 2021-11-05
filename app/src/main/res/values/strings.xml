@@ -11,6 +11,8 @@
     <string name="bombCount">0</string>
     <string name="help">Help</string>
     <string name="clock">0</string>
+    <string name="txt_win">You won!!!!</string>
+    <string name="txt_lose">You loose!!!!</string>
     <string name="txt_fail">A problem generating the game has ocurred</string>
 
 

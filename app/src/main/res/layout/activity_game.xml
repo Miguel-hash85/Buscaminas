@@ -101,6 +101,7 @@
 
     <Button
         android:id="@+id/buttonClock"
+        style="@style/Widget.MaterialComponents.Button"
         android:layout_width="93dp"
         android:layout_height="48dp"
         android:layout_marginStart="10dp"
@@ -140,10 +141,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonBombCount">
-        app:columnCount="3"
-        app:rowCount="6"
-        android:layout_rowSpan="6"
-        android:layout_columnSpan="3"
 
     </androidx.gridlayout.widget.GridLayout>
 
