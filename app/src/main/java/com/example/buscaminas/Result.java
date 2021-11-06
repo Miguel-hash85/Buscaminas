@@ -23,7 +23,7 @@ public class Result extends AppCompatActivity {
     Intent chooser = null;
     private static final int SECONDARY_ACTIVITY_1 = 1;
     private TextView score=null;
-    private int puntuacion=0;
+    private String puntuacion=null;
     private TextView resultado=null;
     private Button historic=null;
     private Button tryAgain=null;
@@ -35,10 +35,10 @@ public class Result extends AppCompatActivity {
         setContentView(R.layout.activity_result);
 
         Bundle extras=this.getIntent().getExtras();
-        puntuacion=extras.getInt("PARAM_1");
+        puntuacion=extras.getString("PARAM_1");
         score=(TextView)findViewById(R.id.textScore);
         resultado=(TextView) findViewById(R.id.textPoints);
-        resultado.setText(resultado.getText());
+        resultado.setText(puntuacion);
         historic=(Button)findViewById(R.id.buttonHistoric);
         historic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,6 +64,7 @@ public class Result extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent intent= new Intent(Result.this, MainActivity.class);
+                startActivity(intent);
                 finish();
 
             }
