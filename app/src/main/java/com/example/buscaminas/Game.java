@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.gridlayout.widget.GridLayout;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Game extends AppCompatActivity {
@@ -24,9 +25,10 @@ public class Game extends AppCompatActivity {
     private int x, y;
     private CountDownTimer clock;
     private Button buttonClock;
-    private Casilla casillas[][];
     private Button button;
-    private boolean activo = true;
+    private Casilla casillas[][];
+    private ArrayList<Button> buttons = new ArrayList<>();
+    private static int cantidad = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,64 +85,82 @@ public class Game extends AppCompatActivity {
                 button.setGravity(Gravity.CENTER);
                 button.setTextColor(Color.BLACK);
                 button.setBackground(getDrawable(R.drawable.border_button));
+                button.setTextSize(0);
                 button.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
-                       
-
-                        if (activo) {
-                            for (int i = 0; i < x; i++) {
-                                for (int j = 0; j < y; j++) {
-                                    if (view.isEnabled()) {
-                                        if (!casillas[i][j].destapada) {
-                                            casillas[i][j].banderita = !casillas[i][j].banderita;
-                                        }
-                                    } else {
-                                        if (!casillas[i][j].banderita) {
-                                            casillas[i][j].destapada = true;
-                                            if (casillas[i][j].getContenido() == 9 && view.equals(gridLayout.getChildAt(i+j))) {
-                                                destaparBombas();
-                                                Toast.makeText(getApplicationContext(), getString(R.string.txt_lose), Toast.LENGTH_SHORT).show();
-                                                Intent intent = new Intent(Game.this, Result.class);
-                                                intent.putExtra("PARAM_1", buttonClock.getText());
-                                                startActivity(intent);
-                                                finish();
-                                                activo = false;
-                                            } else if (casillas[i][j].contenido == 0) {
-                                                recorrer(x,y);
-                                                contarBombasDelPerimetro();
-                                            }
-                                        }
-                                    }
-                                    view.setEnabled(false);
-                                }
-
+                        Button btn = (Button) view;
+                        if (btn.getText().equals("9")) {
+                            destaparBombas();
+                            Toast.makeText(getApplicationContext(), getString(R.string.txt_lose), Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(Game.this, Result.class);
+                            intent.putExtra("PARAM_1", "0");
+                            startActivity(intent);
+                            finish();
+                        } else if(btn.getText().equals("0")){
+                            huecosEnBlanco();
+                            heGanado(btn);
+                            if (cantidad == 22||cantidad==31||cantidad==42){
+                              openResult();
                             }
-
-                            if (activo && heGanado()) {
-                                //destaparBombas();
-                                Toast.makeText(getApplicationContext(), getString(R.string.txt_win), Toast.LENGTH_LONG).show();
-                                activo = false;
-                                Intent intent = new Intent(Game.this, Result.class);
-                                intent.putExtra("PARAM_1", 0);
-                                startActivity(intent);
-                                finish();
+                        }else{
+                            btn.setTextSize(25);
+                            btn.setEnabled(false);
+                            heGanado(btn);
+                            if (cantidad == 22||cantidad==31||cantidad==42){
+                                openResult();
                             }
-
                         }
-
-
                     }
                 });
-
-
                 gridLayout.addView(button);
+            }
+        }
+        inicializarCasillasButton();
+    }
 
+    private void openResult() {
+        destaparBombas();
+        Toast.makeText(getApplicationContext(), getString(R.string.txt_win), Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(Game.this, Result.class);
+        intent.putExtra("PARAM_1", buttonClock.getText());
+        startActivity(intent);
+        finish();
+    }
+
+    private void huecosEnBlanco() {
+        for (int i = 0; i < buttons.size(); i++) {
+            if (buttons.get(i).getText().equals("0")) {
+                    buttons.get(i).setTextSize(25);
+                    buttons.get(i).setEnabled(false);
+                    cantidad++;
+            }
+        }
+    }
+
+    private void inicializarCasillasButton() {
+        Button btn;
+
+        int cont = 0;
+        for (int i = 0; i < gridLayout.getChildCount(); i++) {
+            btn = (Button) gridLayout.getChildAt(i);
+            buttons.add(btn);
+        }
+        for (int k = 0; k < x; k++) {
+            for (int j = 0; j < y; j++) {
+                if (casillas[k][j].getContenido() == 0 && cont < buttons.size()) {
+                    contarCoordenada(k, j, buttons.get(cont));
+                    cont++;
+                } else if (casillas[k][j].getContenido() == 9 && cont < buttons.size()) {
+                    buttons.get(cont).setText("" + 9);
+                    cont++;
+                }
 
             }
         }
+
+
     }
 
     private void inicializarCasillas() {
@@ -153,34 +173,21 @@ public class Game extends AppCompatActivity {
         colocarMinas();
     }
 
-    public void colocarMinas() {
+    private void colocarMinas() {
         int cantidadDeMinasPorColocar = 3;
         if (x == 6) cantidadDeMinasPorColocar = 5;
         if (x == 7) cantidadDeMinasPorColocar = 7;
         while (cantidadDeMinasPorColocar > 0) {
             int fila = (int) (Math.random() * x);
             int columna = (int) (Math.random() * x);
-            if (casillas[fila][columna].contenido == 0) {
-                casillas[fila][columna].contenido = 9;
+            if (casillas[fila][columna].getContenido() == 0) {
+                casillas[fila][columna].setContenido(9);
                 cantidadDeMinasPorColocar--;
             }
         }
     }
 
-    private void contarBombasDelPerimetro() {
-        Button btn;
-        for (int i = 0; i < x; i++) {
-            for (int j = 0; j < y; j++) {
-                if (casillas[i][j].getContenido() == 0) {
-                    casillas[i][j].setContenido(contarCoordenada(i, j));
-                    btn= (Button) gridLayout.getChildAt(i+j);
-                    btn.setText(String.valueOf(casillas[i][j].getContenido()));
-                }
-            }
-        }
-    }
-
-    private int contarCoordenada(int fila, int columna) {
+    private void contarCoordenada(int fila, int columna, Button btn) {
         int cantidadDeBombas = 0;
 
         if (fila - 1 >= 0 && columna - 1 >= 0) {
@@ -230,67 +237,44 @@ public class Game extends AppCompatActivity {
                 cantidadDeBombas++;
             }
         }
-
-        return cantidadDeBombas;
+        btn.setText("" + cantidadDeBombas);
     }
 
-    private boolean heGanado() {
-        int cantidad = 0;
-        for (int i = 0; i < x; i++) {
-            for (int j = 0; j < y; j++) {
-                if (casillas[i][j].destapada) {
+    private void heGanado(Button btn) {
+        if(x==5){
+            for(int i=0;i<buttons.size();i++){
+                if(buttons.get(i).equals(btn)&&!buttons.get(i).getText().equals("0")){
                     cantidad++;
+                    i=buttons.size();
                 }
             }
         }
-
-        if (cantidad == 56) {
-            return true;
-        } else {
-            return false;
+        if(x==6){
+            for(int i=0;i<buttons.size();i++){
+                if(buttons.get(i).equals(btn)){
+                    cantidad++;
+                    i=buttons.size();
+                }
+            }
+        }
+        if(x==7){
+            for(int i=0;i<buttons.size();i++){
+                if(buttons.get(i).equals(btn)){
+                    cantidad++;
+                    i=buttons.size();
+                }
+            }
         }
     }
 
     public void destaparBombas() {
-        Button btn;
-        for (int i = 0; i < x; i++) {
-            for (int j = 0; j < y; j++) {
-                casillas[i][j].banderita = false;
-                if (casillas[i][j].getContenido() == 9) {
-                    casillas[i][j].destapada = true;
-                    btn= (Button) gridLayout.getChildAt(j+i);
-                    btn.setText("💣");
-                    btn.setEnabled(false);
-                }
+        for (int i = 0; i < buttons.size(); i++) {
+            if (buttons.get(i).getText().equals("9")) {
+                buttons.get(i).setText("💣");
+                buttons.get(i).setTextSize(20);
+                buttons.get(i).setEnabled(false);
             }
         }
-
     }
 
-    private void recorrer(int fila, int columna) {
-
-        if (fila >= 0 && fila < x && columna >= 0 && columna < y) {
-            if (casillas[fila][columna].contenido == 0 &&
-                    !casillas[fila][columna].banderita) {
-
-                casillas[fila][columna].destapada = true;
-                casillas[fila][columna].contenido = 50;
-
-                recorrer(fila - 1, columna - 1);
-                recorrer(fila - 1, columna);
-                recorrer(fila - 1, columna + 1);
-                recorrer(fila, columna + 1);
-                recorrer(fila + 1, columna + 1);
-                recorrer(fila + 1, columna);
-                recorrer(fila + 1, columna - 1);
-                recorrer(fila, columna - 1);
-
-            } else if (casillas[fila][columna].contenido <= 8 &&
-                    !casillas[fila][columna].banderita) {
-                casillas[fila][columna].destapada = true;
-            }
-        }
-
-
-    }
 }
