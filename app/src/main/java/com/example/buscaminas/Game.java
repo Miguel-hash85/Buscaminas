@@ -25,9 +25,9 @@ public class Game extends AppCompatActivity {
     private int x, y;
     private CountDownTimer clock;
     private Button buttonClock;
-    private Button button;
+    private ButtonXY button;
     private Casilla casillas[][];
-    private ArrayList<Button> buttons = new ArrayList<>();
+    private ArrayList<ButtonXY> buttons = new ArrayList<>();
     private static int cantidad = 0;
 
     @Override
@@ -79,18 +79,20 @@ public class Game extends AppCompatActivity {
 
         for (int j = 0; j < x; j++) {
             for (int k = 0; k < y; k++) {
-                button = new Button(this, null, R.style.Widget_AppCompat_Button_Small);
+                button = new ButtonXY(this, null, R.style.Widget_AppCompat_Button_Small);
                 button.setHeight(125);
                 button.setWidth(125);
+                button.setxCoord(j);
+                button.setyCoord(k);
                 button.setGravity(Gravity.CENTER);
                 button.setTextColor(Color.BLACK);
                 button.setBackground(getDrawable(R.drawable.border_button));
-                button.setTextSize(0);
+                //button.setTextSize(0);
                 button.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Button btn = (Button) view;
+                        ButtonXY btn = (ButtonXY) view;
                         if (btn.getText().equals("9")) {
                             destaparBombas();
                             Toast.makeText(getApplicationContext(), getString(R.string.txt_lose), Toast.LENGTH_SHORT).show();
@@ -99,7 +101,8 @@ public class Game extends AppCompatActivity {
                             startActivity(intent);
                             finish();
                         } else if(btn.getText().equals("0")){
-                            huecosEnBlanco();
+                            btn.setTextSize(25);
+                            huecosEnBlanco(btn.getxCoord(), btn.getyCoord());
                             heGanado(btn);
                             if (cantidad == 22||cantidad==31||cantidad==42){
                               openResult();
@@ -129,22 +132,55 @@ public class Game extends AppCompatActivity {
         finish();
     }
 
-    private void huecosEnBlanco() {
-        for (int i = 0; i < buttons.size(); i++) {
-            if (buttons.get(i).getText().equals("0")) {
-                    buttons.get(i).setTextSize(25);
-                    buttons.get(i).setEnabled(false);
-                    cantidad++;
+    private void huecosEnBlanco(int xCoord, int yCoord) {
+
+
+
+        for(int i=0;i<buttons.size();i++){
+            if(buttons.get(i).getxCoord()==xCoord-1 && buttons.get(i).getyCoord()==yCoord &&!buttons.get(i).getText().equals("9") && !buttons.get(i).getText().equals("0")){
+                incrementarCantidad(buttons.get(i));
             }
+            if(buttons.get(i).getxCoord()==xCoord-1 && buttons.get(i).getyCoord()==yCoord-1 &&!buttons.get(i).getText().equals("9") && !buttons.get(i).getText().equals("0")){
+                incrementarCantidad(buttons.get(i));
+            }
+            if(buttons.get(i).getxCoord()==xCoord-1 && buttons.get(i).getyCoord()==yCoord+1 &&!buttons.get(i).getText().equals("9") && !buttons.get(i).getText().equals("0")){
+                incrementarCantidad(buttons.get(i));
+            }
+            if(buttons.get(i).getxCoord()==xCoord && buttons.get(i).getyCoord()==yCoord-1 &&!buttons.get(i).getText().equals("9") && !buttons.get(i).getText().equals("0")){
+                incrementarCantidad(buttons.get(i));
+            }
+            if(buttons.get(i).getxCoord()==xCoord && buttons.get(i).getyCoord()==yCoord+1 &&!buttons.get(i).getText().equals("9") && !buttons.get(i).getText().equals("0")){
+                incrementarCantidad(buttons.get(i));
+            }
+            if(buttons.get(i).getxCoord()==xCoord+1 && buttons.get(i).getyCoord()==yCoord-1 &&!buttons.get(i).getText().equals("9") && !buttons.get(i).getText().equals("0")){
+                incrementarCantidad(buttons.get(i));
+            }
+            if(buttons.get(i).getxCoord()==xCoord+1 && buttons.get(i).getyCoord()==yCoord &&!buttons.get(i).getText().equals("9") && !buttons.get(i).getText().equals("0")){
+                incrementarCantidad(buttons.get(i));
+            }
+            if(buttons.get(i).getxCoord()==xCoord+1 && buttons.get(i).getyCoord()==yCoord+1 &&!buttons.get(i).getText().equals("9") && !buttons.get(i).getText().equals("0")){
+                incrementarCantidad(buttons.get(i));
+            }
+            /*if(buttons.get(i).getText().equals("0") && buttons.get(i).getTextSize()!=25){
+                huecosEnBlanco(buttons.get(i).getxCoord(), buttons.get(i).getyCoord());
+            }*/
+
         }
     }
 
+    private void incrementarCantidad(ButtonXY btn) {
+        btn.setTextSize(25);
+        btn.setEnabled(false);
+        cantidad++;
+    }
+
+
     private void inicializarCasillasButton() {
-        Button btn;
+        ButtonXY btn;
 
         int cont = 0;
         for (int i = 0; i < gridLayout.getChildCount(); i++) {
-            btn = (Button) gridLayout.getChildAt(i);
+            btn = (ButtonXY) gridLayout.getChildAt(i);
             buttons.add(btn);
         }
         for (int k = 0; k < x; k++) {
@@ -190,49 +226,49 @@ public class Game extends AppCompatActivity {
     private void contarCoordenada(int fila, int columna, Button btn) {
         int cantidadDeBombas = 0;
 
-        if (fila - 1 >= 0 && columna - 1 >= 0) {
-            if (casillas[fila - 1][columna - 1].getContenido() == 9) {
+        if (fila - 1 >= 0 && columna - 1 >= 0) {//si tengo una fila a la izquierda y una columna encima(diagonal a la izquierda arriba)
+            if (casillas[fila - 1][columna - 1].getContenido() == 9) {//analizamos si es una bomba
                 cantidadDeBombas++;
             }
         }
 
-        if (fila - 1 >= 0) {
-            if (casillas[fila - 1][columna].getContenido() == 9) {
+        if (fila - 1 >= 0) {//analizamos la casilla de la izquierda
+            if (casillas[fila - 1][columna].getContenido() == 9) {//analizamos si es una bomba
                 cantidadDeBombas++;
             }
         }
 
-        if (fila - 1 >= 0 && columna + 1 < x) {
-            if (casillas[fila - 1][columna + 1].getContenido() == 9) {
+        if (fila - 1 >= 0 && columna + 1 < x) {//diagonal de abajo a la izquierda
+            if (casillas[fila - 1][columna + 1].getContenido() == 9) {//analizamos si es bomba
                 cantidadDeBombas++;
             }
         }
 
-        if (columna + 1 < x) {
+        if (columna + 1 < x) {//casilla de abajo
             if (casillas[fila][columna + 1].getContenido() == 9) {
                 cantidadDeBombas++;
             }
         }
 
-        if (fila + 1 < x && columna + 1 < x) {
+        if (fila + 1 < x && columna + 1 < x) {//diagonal de abajo a la derecha
             if (casillas[fila + 1][columna + 1].getContenido() == 9) {
                 cantidadDeBombas++;
             }
         }
 
-        if (fila + 1 < x) {
+        if (fila + 1 < x) {//casilla de la derecha
             if (casillas[fila + 1][columna].getContenido() == 9) {
                 cantidadDeBombas++;
             }
         }
 
-        if (fila + 1 < x && columna - 1 >= 0) {
+        if (fila + 1 < x && columna - 1 >= 0) {//diagonal arriba a la derecha
             if (casillas[fila + 1][columna - 1].getContenido() == 9) {
                 cantidadDeBombas++;
             }
         }
 
-        if (columna - 1 >= 0) {
+        if (columna - 1 >= 0) {//casilla de arriba
             if (casillas[fila][columna - 1].getContenido() == 9) {
                 cantidadDeBombas++;
             }
@@ -240,7 +276,7 @@ public class Game extends AppCompatActivity {
         btn.setText("" + cantidadDeBombas);
     }
 
-    private void heGanado(Button btn) {
+    private void heGanado(ButtonXY btn) {
         if(x==5){
             for(int i=0;i<buttons.size();i++){
                 if(buttons.get(i).equals(btn)&&!buttons.get(i).getText().equals("0")){
