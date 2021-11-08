@@ -12,6 +12,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -32,12 +33,17 @@ public class MainActivity extends AppCompatActivity  {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
         btnPlay = (Button) findViewById(R.id.playBtn);
+        btnPlay.setEnabled(false);
         btnPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intent = new Intent(MainActivity.this, Game.class);
-                intent.putExtra("Level", level);
-                startActivity(intent);
+
+
+                    intent = new Intent(MainActivity.this, Game.class);
+                    intent.putExtra("Level", level);
+                    startActivity(intent);
+
+
             }
         });
         radioGroup = (RadioGroup) findViewById(R.id.rdbGroup);
@@ -45,6 +51,7 @@ public class MainActivity extends AppCompatActivity  {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 radioGroup.jumpDrawablesToCurrentState();
+                btnPlay.setEnabled(true);
                 int id = radioGroup.getCheckedRadioButtonId();
                 radioButton = (RadioButton) findViewById(id);
                 setFont(radioButton);
