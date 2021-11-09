@@ -26,8 +26,8 @@ public class Game extends AppCompatActivity {
     private CountDownTimer clock;
     private Button buttonClock;
     private ButtonXY button;
-    private Casilla casillas[][];
-    private ArrayList<ButtonXY> buttons = new ArrayList<>();
+    private ButtonXY buttons[][];
+    //private ArrayList<ButtonXY> buttons = new ArrayList<>();
     private static int cantidad = 0;
 
     @Override
@@ -76,20 +76,16 @@ public class Game extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), getString(R.string.txt_navegador), Toast.LENGTH_LONG).show();
                 break;
         }
-
+       // buttons = new ButtonXY[x][y];
         for (int j = 0; j < x; j++) {
             for (int k = 0; k < y; k++) {
-                button = new ButtonXY(this, null, R.style.Widget_AppCompat_Button_Small);
-                button.setHeight(125);
-                button.setWidth(125);
-                button.setxCoord(j);
-                button.setyCoord(k);
-                button.setGravity(Gravity.CENTER);
-                button.setTextColor(Color.BLACK);
-                button.setBackground(getDrawable(R.drawable.border_button));
-                //button.setTextSize(0);
-                button.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                button.setOnClickListener(new View.OnClickListener() {
+                buttons[j][k].setHeight(125);
+                buttons[j][k].setWidth(125);
+                buttons[j][k].setGravity(Gravity.CENTER);
+                buttons[j][k].setTextColor(Color.BLACK);
+                buttons[j][k].setBackground(getDrawable(R.drawable.border_button));
+                buttons[j][k].setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                buttons[j][k].setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         ButtonXY btn = (ButtonXY) view;
@@ -117,10 +113,11 @@ public class Game extends AppCompatActivity {
                         }
                     }
                 });
-                gridLayout.addView(button);
+                gridLayout.addView(buttons[j][k]);
             }
         }
-        inicializarCasillasButton();
+        colocarMinas();
+
     }
 
     private void openResult() {
@@ -132,40 +129,74 @@ public class Game extends AppCompatActivity {
         finish();
     }
 
-    private void huecosEnBlanco(int xCoord, int yCoord) {
+    private void huecosEnBlanco(int coordX, int coordY) {
 
+            if(!buttons[coordX-1][coordY].getText().equals("0")){//fila arriba
+                incrementarCantidad(buttons[coordX-1][coordY]);
+            }
+            if(!buttons[coordX-1][coordY-1].getText().equals("0")){//arriba izquierda
+                incrementarCantidad(buttons[coordX-1][coordY-1]);
+            }
+            if(!buttons[coordX-1][coordY+1].getText().equals("0")){
+                incrementarCantidad(buttons[coordX-1][coordY+1]);
+            }
+            if(!buttons[coordX][coordY-1].getText().equals("0")){
+                incrementarCantidad(buttons[coordX][coordY-1]);
+            }
+            if(!buttons[coordX][coordY+1].getText().equals("0")){
+                incrementarCantidad(buttons[coordX][coordY+1]);
+            }
+            if(!buttons[coordX+1][coordY-1].getText().equals("0")){
+                incrementarCantidad(buttons[coordX+1][coordY-1]);
+            }
+            if(!buttons[coordX+1][coordY].getText().equals("0")){
+                incrementarCantidad(buttons[coordX+1][coordY]);
+            }
+            if(!buttons[coordX+1][coordY+1].getText().equals("0")){
+                incrementarCantidad(buttons[coordX+1][coordY+1]);
+            }
+            //Vacios
+            if(buttons[coordX-1][coordY].getText().equals("0") && buttons[coordX-1][coordY].getTextSize()!=25){
+                incrementarCantidad(buttons[coordX-1][coordY]);
+                huecosEnBlanco(buttons[coordX-1][coordY].getxCoord(), buttons[coordX-1][coordY].getyCoord());
+            }
+            //Arriba izquierda
+            if(buttons[coordX-1][coordY-1].getText().equals("0") && buttons[coordX-1][coordY-1].getTextSize()!=25){
+                incrementarCantidad(buttons[coordX-1][coordY-1]);
+                huecosEnBlanco(buttons[coordX-1][coordY-1].getxCoord(), buttons[coordX-1][coordY-1].getyCoord());
+            }
+            //Arriba derecha
+            if(buttons[coordX-1][coordY+1].getText().equals("0") && buttons[coordX-1][coordY+1].getTextSize()!=25){
+                incrementarCantidad(buttons[coordX-1][coordY+1]);
+                huecosEnBlanco(buttons[coordX-1][coordY+1].getxCoord(), buttons[coordX-1][coordY+1].getyCoord());
+            }
 
+            //4 Izquierda
+            if(buttons[coordX][coordY-1].getText().equals("0") && buttons[coordX][coordY-1].getTextSize()!=25){
+                incrementarCantidad(buttons[coordX][coordY-1]);
+                huecosEnBlanco(buttons[coordX][coordY-1].getxCoord(), buttons[coordX][coordY-1].getyCoord());
+            }
 
-        for(int i=0;i<buttons.size();i++){
-            if(buttons.get(i).getxCoord()==xCoord-1 && buttons.get(i).getyCoord()==yCoord &&!buttons.get(i).getText().equals("9") && !buttons.get(i).getText().equals("0")){
-                incrementarCantidad(buttons.get(i));
+            //5
+            if(buttons[coordX][coordY+1].getText().equals("0") && buttons[coordX][coordY+1].getTextSize()!=25){
+                incrementarCantidad(buttons[coordX][coordY+1]);
+                huecosEnBlanco(buttons[coordX][coordY+1].getxCoord(), buttons[coordX][coordY+1].getyCoord());
             }
-            if(buttons.get(i).getxCoord()==xCoord-1 && buttons.get(i).getyCoord()==yCoord-1 &&!buttons.get(i).getText().equals("9") && !buttons.get(i).getText().equals("0")){
-                incrementarCantidad(buttons.get(i));
+            //6
+            if(buttons[coordX+1][coordY-1].getText().equals("0") && buttons[coordX+1][coordY-1].getTextSize()!=25){
+                incrementarCantidad(buttons[coordX+1][coordY-1]);
+                huecosEnBlanco(buttons[coordX+1][coordY-1].getxCoord(), buttons[coordX+1][coordY-1].getyCoord());
             }
-            if(buttons.get(i).getxCoord()==xCoord-1 && buttons.get(i).getyCoord()==yCoord+1 &&!buttons.get(i).getText().equals("9") && !buttons.get(i).getText().equals("0")){
-                incrementarCantidad(buttons.get(i));
+            //7
+            if(buttons[coordX+1][coordY].getText().equals("0") && buttons[coordX+1][coordY].getTextSize()!=25){
+                incrementarCantidad(buttons[coordX+1][coordY]);
+                huecosEnBlanco(buttons[coordX+1][coordY].getxCoord(), buttons[coordX+1][coordY].getyCoord());
             }
-            if(buttons.get(i).getxCoord()==xCoord && buttons.get(i).getyCoord()==yCoord-1 &&!buttons.get(i).getText().equals("9") && !buttons.get(i).getText().equals("0")){
-                incrementarCantidad(buttons.get(i));
+            //8
+            if(buttons[coordX+1][coordY+1].getText().equals("0") && buttons[coordX+1][coordY+1].getTextSize()!=25){
+                incrementarCantidad(buttons[coordX+1][coordY+1]);
+                huecosEnBlanco(buttons[coordX+1][coordY+1].getxCoord(), buttons[coordX+1][coordY+1].getyCoord());
             }
-            if(buttons.get(i).getxCoord()==xCoord && buttons.get(i).getyCoord()==yCoord+1 &&!buttons.get(i).getText().equals("9") && !buttons.get(i).getText().equals("0")){
-                incrementarCantidad(buttons.get(i));
-            }
-            if(buttons.get(i).getxCoord()==xCoord+1 && buttons.get(i).getyCoord()==yCoord-1 &&!buttons.get(i).getText().equals("9") && !buttons.get(i).getText().equals("0")){
-                incrementarCantidad(buttons.get(i));
-            }
-            if(buttons.get(i).getxCoord()==xCoord+1 && buttons.get(i).getyCoord()==yCoord &&!buttons.get(i).getText().equals("9") && !buttons.get(i).getText().equals("0")){
-                incrementarCantidad(buttons.get(i));
-            }
-            if(buttons.get(i).getxCoord()==xCoord+1 && buttons.get(i).getyCoord()==yCoord+1 &&!buttons.get(i).getText().equals("9") && !buttons.get(i).getText().equals("0")){
-                incrementarCantidad(buttons.get(i));
-            }
-            /*if(buttons.get(i).getText().equals("0") && buttons.get(i).getTextSize()!=25){
-                huecosEnBlanco(buttons.get(i).getxCoord(), buttons.get(i).getyCoord());
-            }*/
-
-        }
     }
 
     private void incrementarCantidad(ButtonXY btn) {
@@ -175,7 +206,7 @@ public class Game extends AppCompatActivity {
     }
 
 
-    private void inicializarCasillasButton() {
+    /*private void inicializarCasillasButton() {
         ButtonXY btn;
 
         int cont = 0;
@@ -185,7 +216,7 @@ public class Game extends AppCompatActivity {
         }
         for (int k = 0; k < x; k++) {
             for (int j = 0; j < y; j++) {
-                if (casillas[k][j].getContenido() == 0 && cont < buttons.size()) {
+                if (ButtonXY[k][j].getText() == 0 && cont < buttons.size()) {
                     contarCoordenada(k, j, buttons.get(cont));
                     cont++;
                 } else if (casillas[k][j].getContenido() == 9 && cont < buttons.size()) {
@@ -197,16 +228,17 @@ public class Game extends AppCompatActivity {
         }
 
 
-    }
+    }*/
 
-    private void inicializarCasillas() {
-        casillas = new Casilla[x][y];
+   private void inicializarCasillas() {
+        buttons = new ButtonXY[x][y];
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
-                casillas[i][j] = new Casilla();
+                buttons[i][j] = new ButtonXY(this, null, R.style.Widget_AppCompat_Button_Small);
             }
         }
         colocarMinas();
+        contarCoordenada(x,y);
     }
 
     private void colocarMinas() {
@@ -216,101 +248,118 @@ public class Game extends AppCompatActivity {
         while (cantidadDeMinasPorColocar > 0) {
             int fila = (int) (Math.random() * x);
             int columna = (int) (Math.random() * x);
-            if (casillas[fila][columna].getContenido() == 0) {
-                casillas[fila][columna].setContenido(9);
+            if (buttons[fila][columna].getText().equals("0")) {
+                buttons[fila][columna].setText("9");
                 cantidadDeMinasPorColocar--;
             }
         }
     }
 
-    private void contarCoordenada(int fila, int columna, Button btn) {
+    private void contarCoordenada(int fila, int columna) {
         int cantidadDeBombas = 0;
 
         if (fila - 1 >= 0 && columna - 1 >= 0) {//si tengo una fila a la izquierda y una columna encima(diagonal a la izquierda arriba)
-            if (casillas[fila - 1][columna - 1].getContenido() == 9) {//analizamos si es una bomba
+            if (buttons[fila - 1][columna - 1].getText().equals("9")) {//analizamos si es una bomba
                 cantidadDeBombas++;
             }
         }
 
         if (fila - 1 >= 0) {//analizamos la casilla de la izquierda
-            if (casillas[fila - 1][columna].getContenido() == 9) {//analizamos si es una bomba
+            if (buttons[fila - 1][columna].getText().equals("9")) {//analizamos si es una bomba
                 cantidadDeBombas++;
             }
         }
 
         if (fila - 1 >= 0 && columna + 1 < x) {//diagonal de abajo a la izquierda
-            if (casillas[fila - 1][columna + 1].getContenido() == 9) {//analizamos si es bomba
+            if (buttons[fila - 1][columna + 1].getText().equals("9")) {//analizamos si es bomba
                 cantidadDeBombas++;
             }
         }
 
         if (columna + 1 < x) {//casilla de abajo
-            if (casillas[fila][columna + 1].getContenido() == 9) {
+            if (buttons[fila][columna + 1].getText().equals("9")) {
                 cantidadDeBombas++;
             }
         }
 
         if (fila + 1 < x && columna + 1 < x) {//diagonal de abajo a la derecha
-            if (casillas[fila + 1][columna + 1].getContenido() == 9) {
+            if (buttons[fila + 1][columna + 1].getText().equals("9")) {
                 cantidadDeBombas++;
             }
         }
 
         if (fila + 1 < x) {//casilla de la derecha
-            if (casillas[fila + 1][columna].getContenido() == 9) {
+            if (buttons[fila + 1][columna].getText().equals("9")) {
                 cantidadDeBombas++;
             }
         }
 
         if (fila + 1 < x && columna - 1 >= 0) {//diagonal arriba a la derecha
-            if (casillas[fila + 1][columna - 1].getContenido() == 9) {
+            if (buttons[fila + 1][columna - 1].getText().equals("9")) {
                 cantidadDeBombas++;
             }
         }
 
         if (columna - 1 >= 0) {//casilla de arriba
-            if (casillas[fila][columna - 1].getContenido() == 9) {
+            if (buttons[fila][columna - 1].getText().equals("9")) {
                 cantidadDeBombas++;
             }
         }
-        btn.setText("" + cantidadDeBombas);
+        //btn.setText("" + cantidadDeBombas);
     }
 
     private void heGanado(ButtonXY btn) {
         if(x==5){
-            for(int i=0;i<buttons.size();i++){
-                if(buttons.get(i).equals(btn)&&!buttons.get(i).getText().equals("0")){
-                    cantidad++;
-                    i=buttons.size();
+            for(int i=0;i<x;i++){
+                for(int j=0;j<y;j++){
+                    if(buttons[i][j].equals(btn)&&!buttons[i][j].getText().equals("0")){
+                        cantidad++;
+                        i=x;
+                        j=y;
+                    }
+
                 }
+
             }
         }
         if(x==6){
-            for(int i=0;i<buttons.size();i++){
-                if(buttons.get(i).equals(btn)){
-                    cantidad++;
-                    i=buttons.size();
+            for(int i=0;i<x;i++){
+                for(int j=0;j<y;j++){
+                    if(buttons[i][j].equals(btn)&&!buttons[i][j].getText().equals("0")){
+                        cantidad++;
+                        i=x;
+                        j=y;
+                    }
+
                 }
+
             }
         }
         if(x==7){
-            for(int i=0;i<buttons.size();i++){
-                if(buttons.get(i).equals(btn)){
-                    cantidad++;
-                    i=buttons.size();
+            for(int i=0;i<x;i++){
+                for(int j=0;j<y;j++){
+                    if(buttons[i][j].equals(btn)&&!buttons[i][j].getText().equals("0")){
+                        cantidad++;
+                        i=x;
+                        j=y;
+                    }
+
                 }
+
             }
         }
     }
 
     public void destaparBombas() {
-        for (int i = 0; i < buttons.size(); i++) {
-            if (buttons.get(i).getText().equals("9")) {
-                buttons.get(i).setText("💣");
-                buttons.get(i).setTextSize(20);
-                buttons.get(i).setEnabled(false);
+        for(int i=0;i<x;i++){
+            for(int j=0;j<y;j++){
+            if (buttons[i][j].getText().equals("9")) {
+                buttons[i][j].setText("💣");
+                buttons[i][j].setTextSize(20);
+                buttons[i][j].setEnabled(false);
             }
         }
+    }
     }
 
 }
