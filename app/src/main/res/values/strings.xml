@@ -24,7 +24,7 @@
     <string name="bestScore">BEST SCORE</string>
     <string name="urlRanking">https://www.xataka.com/videojuegos/el-legendario-buscaminas-sigue-muy-vivo-y-hay-un-campeonato-del-mundo-que-lo-demuestra</string>
     <string name="txt_intent_app">Choose App</string>
-    <string name="txt_nav">Not avaliable navegator</string>
-    <string name="txt_no_score">Not avaliable score</string>
+    <string name="txt_nav">No browser available</string>
+    <string name="txt_no_score">No avaliable score</string>
 
 </resources>

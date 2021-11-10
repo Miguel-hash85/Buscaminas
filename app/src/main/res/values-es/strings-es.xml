@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="welcome">Bienvenido al Buscaminas</string>
+    <string name="easy">Piece of Cake</string>
+    <string name="medium">Let\'s Rock</string>
+    <string name="hard">Damn, I am Good</string>
+    <string name="play">Jugar</string>
+    <string name="select">Por favor, seleccione un nivel de dificultad</string>
+
+
+    <string name="app_name">Buscaminas</string>
+    <string name="bombCount">0</string>
+    <string name="help">Ayuda</string>
+    <string name="clock">0</string>
+    <string name="txt_win">Has Ganado!!!!</string>
+    <string name="txt_lose">Has perdido!!!!</string>
+    <string name="txt_fail">Ha ocurrido un problema al generar el juego</string>
+
+
+
+    <string name="score">PUNTAJE:</string>
+    <string name="points">PUNTOS</string>
+    <string name="historic">HISTÓRICO</string>
+    <string name="tryAgain">INTENTA OTRA VEZ</string>
+    <string name="bestScore">MEJOR PUNTUACIÓN</string>
+    <string name="urlRanking">https://www.xataka.com/videojuegos/el-legendario-buscaminas-sigue-muy-vivo-y-hay-un-campeonato-del-mundo-que-lo-demuestra</string>
+    <string name="txt_intent_app">Elija la aplicación</string>
+    <string name="txt_nav">Navegador no disponible</string>
+    <string name="txt_no_score">Sin puntuación disponible</string>
+
+</resources>
