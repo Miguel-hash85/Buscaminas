@@ -18,6 +18,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonHistoric" />
 
+    <Button
+        android:id="@+id/buttonBestScore"
+        android:layout_width="123dp"
+        android:layout_height="63dp"
+        android:layout_marginStart="136dp"
+        android:layout_marginTop="51dp"
+        android:layout_marginEnd="152dp"
+        android:layout_marginBottom="240dp"
+        android:backgroundTint="#817C7C"
+        android:text="@string/bestScore"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonTryAgain" />
+
     <TextView
         android:id="@+id/textPoints"
         android:layout_width="172dp"

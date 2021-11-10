@@ -3,7 +3,10 @@ package com.example.buscaminas;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -27,16 +30,22 @@ public class Result extends AppCompatActivity {
     private TextView resultado=null;
     private Button historic=null;
     private Button tryAgain=null;
+    private Button bestScore=null;
+    private SQLiteDatabase dataBase=null;
+    private Cursor cursor=null;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
-
+        dataBase=openOrCreateDatabase("Score", Context.MODE_PRIVATE, null);
+        dataBase.execSQL("CREATE TABLE IF NOT EXISTS t_score(Score VARCHAR)");
         Bundle extras=this.getIntent().getExtras();
         puntuacion=extras.getString("PARAM_1");
         score=(TextView)findViewById(R.id.textScore);
+        if(Integer.valueOf(puntuacion)>0)
+            dataBase.execSQL("INSERT INTO t_score values(puntuacion)");
         resultado=(TextView) findViewById(R.id.textPoints);
         resultado.setText(puntuacion);
         historic=(Button)findViewById(R.id.buttonHistoric);
@@ -67,6 +76,14 @@ public class Result extends AppCompatActivity {
                 startActivity(intent);
                 finish();
 
+            }
+        });
+
+        bestScore=(Button) findViewById(R.id.buttonBestScore);
+        bestScore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cursor= dataBase.rawQuery("SELECT MAX("+Score+") FROM "+t_score);
             }
         });
 

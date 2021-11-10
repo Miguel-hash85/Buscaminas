@@ -27,8 +27,10 @@ public class Game extends AppCompatActivity {
     private Button buttonClock;
     private ButtonXY button;
     private ButtonXY buttons[][];
+    private  int contador;
+    private int heGanado;
     //private ArrayList<ButtonXY> buttons = new ArrayList<>();
-    private static int cantidad = 0;
+    private int cantidad = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +58,7 @@ public class Game extends AppCompatActivity {
                 gridLayout.setRowCount(5);
                 x = 5;
                 y = 5;
+                contador=22;
                 inicializarCasillas();
                 break;
             case 2:
@@ -63,6 +66,7 @@ public class Game extends AppCompatActivity {
                 gridLayout.setRowCount(6);
                 x = 6;
                 y = 6;
+                contador=31;
                 inicializarCasillas();
                 break;
             case 3:
@@ -70,6 +74,7 @@ public class Game extends AppCompatActivity {
                 gridLayout.setRowCount(7);
                 x = 7;
                 y = 7;
+                contador=42;
                 inicializarCasillas();
                 break;
             default:
@@ -84,6 +89,7 @@ public class Game extends AppCompatActivity {
                 button.setWidth(125);
                 button.setGravity(Gravity.CENTER);
                 button.setTextColor(Color.BLACK);
+                button.setTextSize(0);
                 button.setBackground(getDrawable(R.drawable.border_button));
                 button.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 button.setOnClickListener(new View.OnClickListener() {
@@ -99,15 +105,19 @@ public class Game extends AppCompatActivity {
                             finish();
                         } else if (btn.getText().equals("0")) {
                             btn.setTextSize(25);
+                            btn.setEnabled(false);
                             huecosEnBlanco(btn.getxCoord(), btn.getyCoord());
-                            heGanado(btn);
+                            cantidad++;
+                            contador--;
+                            Toast.makeText(getApplicationContext(), ""+cantidad, Toast.LENGTH_SHORT).show();
                             if (cantidad == 22 || cantidad == 31 || cantidad == 42) {
                                 openResult();
                             }
                         } else {
                             btn.setTextSize(25);
                             btn.setEnabled(false);
-                            heGanado(btn);
+                            cantidad++;
+                            contador--;
                             if (cantidad == 22 || cantidad == 31 || cantidad == 42) {
                                 openResult();
                             }
@@ -121,6 +131,12 @@ public class Game extends AppCompatActivity {
         //colocarMinas();
 
     }
+
+   /* @Override
+    protected void onResume() {
+        super.onResume();
+        Bundle savedInstanceState
+    }*/
     private void inicializarCasillasButton() {
         for (int k = 0; k < x; k++) {
             for (int j = 0; j < y; j++) {
@@ -143,110 +159,129 @@ public class Game extends AppCompatActivity {
     }
 
     private void huecosEnBlanco(int coordX, int coordY) {
-            if (coordX - 1 < x && coordX - 1 > 0) {
-                if (!buttons[coordX - 1][coordY].getText().equals("0") && buttons[coordX - 1][coordY].getTextSize() != 25) {//fila arriba
-                    incrementarCantidad(buttons[coordX - 1][coordY]);
+
+        //boolean salir=false;
+        ButtonXY aux = null;
+            if(contador>0) {
+                if (coordX - 1 < x && coordX - 1 > 0) {
+                    if (!buttons[coordX - 1][coordY].getText().equals("0") && buttons[coordX - 1][coordY].isEnabled()) {//fila arriba
+                        incrementarCantidad(buttons[coordX - 1][coordY]);
+                    }
                 }
-            }
-            if (coordX - 1 < x && coordY - 1 < y && coordX - 1 > 0 && coordY -1> 0) {
-                if (!buttons[coordX - 1][coordY - 1].getText().equals("0") && buttons[coordX - 1][coordY - 1].getTextSize() != 25) {//arriba izquierda
-                    incrementarCantidad(buttons[coordX - 1][coordY - 1]);
+                if (coordX - 1 < x && coordY - 1 < y && coordX - 1 > 0 && coordY - 1 > 0) {
+                    if (!buttons[coordX - 1][coordY - 1].getText().equals("0") && buttons[coordX - 1][coordY - 1].isEnabled()) {//arriba izquierda
+                        incrementarCantidad(buttons[coordX - 1][coordY - 1]);
+                    }
                 }
-            }
-            if (coordX - 1 < x && coordY + 1 < y && coordX - 1 > 0) {
-                if (!buttons[coordX - 1][coordY + 1].getText().equals("0") && buttons[coordX - 1][coordY + 1].getTextSize() != 25) {
-                    incrementarCantidad(buttons[coordX - 1][coordY + 1]);
+                if (coordX - 1 < x && coordY + 1 < y && coordX - 1 > 0) {
+                    if (!buttons[coordX - 1][coordY + 1].getText().equals("0") && buttons[coordX - 1][coordY + 1].isEnabled()) {
+                        incrementarCantidad(buttons[coordX - 1][coordY + 1]);
+                    }
                 }
-            }
-            if (coordY - 1 < y && coordY -1> 0) {
-                if (!buttons[coordX][coordY - 1].getText().equals("0") && buttons[coordX][coordY - 1].getTextSize() != 25) {
-                    incrementarCantidad(buttons[coordX][coordY - 1]);
+                if (coordY - 1 < y && coordY - 1 > 0) {
+                    if (!buttons[coordX][coordY - 1].getText().equals("0") && buttons[coordX][coordY - 1].isEnabled()) {
+                        incrementarCantidad(buttons[coordX][coordY - 1]);
+                    }
                 }
-            }
+                if (coordY + 1 < y) {
+                    if (!buttons[coordX][coordY + 1].getText().equals("0") && buttons[coordX][coordY + 1].isEnabled()) {
+                        incrementarCantidad(buttons[coordX][coordY + 1]);
+                    }
+                }
+                if (coordX + 1 < x && coordY - 1 < y && coordY - 1 > 0) {
+                    if (!buttons[coordX + 1][coordY - 1].getText().equals("0") && buttons[coordX + 1][coordY - 1].isEnabled()) {
+                        incrementarCantidad(buttons[coordX + 1][coordY - 1]);
+                    }
+                }
+                if (coordX + 1 < x) {
+                    if (!buttons[coordX + 1][coordY].getText().equals("0") && buttons[coordX + 1][coordY].isEnabled()) {
+                        incrementarCantidad(buttons[coordX + 1][coordY]);
+                    }
+                }
+                if (coordX + 1 < x && coordY + 1 < y) {
+                    if (!buttons[coordX + 1][coordY + 1].getText().equals("0") && buttons[coordX + 1][coordY + 1].isEnabled()) {
+                        incrementarCantidad(buttons[coordX + 1][coordY + 1]);
+                    }
+                }
+                //Vacios 0
+                if (coordX - 1 < x && coordX - 1 > 0) {
+                    if (buttons[coordX - 1][coordY].getText().equals("0") && buttons[coordX - 1][coordY].isEnabled()) {
+                        incrementarCantidad(buttons[coordX - 1][coordY]);
+                        huecosEnBlanco(buttons[coordX - 1][coordY].getxCoord(), buttons[coordX - 1][coordY].getyCoord());
+                    }
+                }
+                //Arriba izquierda
+                if (coordX - 1 < x && coordY - 1 < y && coordX - 1 > 0 && coordY - 1 > 0) {
+                    if (buttons[coordX - 1][coordY - 1].getText().equals("0") && buttons[coordX - 1][coordY - 1].isEnabled()) {
+                        incrementarCantidad(buttons[coordX - 1][coordY - 1]);
+                        huecosEnBlanco(buttons[coordX - 1][coordY - 1].getxCoord(), buttons[coordX - 1][coordY - 1].getyCoord());
+                    }
+                }
+                //Arriba derecha
+                if (coordX - 1 < x && coordY + 1 < y && coordX - 1 > 0) {
+                    if (buttons[coordX - 1][coordY + 1].getText().equals("0") && buttons[coordX - 1][coordY + 1].isEnabled()) {
+                        incrementarCantidad(buttons[coordX - 1][coordY + 1]);
+                        huecosEnBlanco(buttons[coordX - 1][coordY + 1].getxCoord(), buttons[coordX - 1][coordY + 1].getyCoord());
+                    }
+                }
+
+                //4 Izquierda
+                if (coordY - 1 < y && coordY > 0) {
+                    if (buttons[coordX][coordY - 1].getText().equals("0") && buttons[coordX][coordY - 1].isEnabled()) {
+                        incrementarCantidad(buttons[coordX][coordY - 1]);
+                        huecosEnBlanco(buttons[coordX][coordY - 1].getxCoord(), buttons[coordX][coordY - 1].getyCoord());
+                    }
+                }
+                //5
+
             if (coordY + 1 < y) {
-                if (!buttons[coordX][coordY + 1].getText().equals("0") && buttons[coordX][coordY + 1].getTextSize() != 25) {
+                if (buttons[coordX][coordY + 1].getText().equals("0") && buttons[coordX][coordY + 1].isEnabled()) {
                     incrementarCantidad(buttons[coordX][coordY + 1]);
-                }
-            }
-            if (coordX + 1 < x && coordY - 1 < y && coordY-1 > 0) {
-                if (!buttons[coordX + 1][coordY - 1].getText().equals("0") && buttons[coordX + 1][coordY - 1].getTextSize() != 25) {
-                    incrementarCantidad(buttons[coordX + 1][coordY - 1]);
-                }
-            }
-            if (coordX + 1 < x) {
-                if (!buttons[coordX + 1][coordY].getText().equals("0") && buttons[coordX + 1][coordY].getTextSize() != 25) {
-                    incrementarCantidad(buttons[coordX + 1][coordY]);
-                }
-            }
-            if (coordX + 1 < x && coordY + 1 < y) {
-                if (!buttons[coordX + 1][coordY + 1].getText().equals("0") && buttons[coordX + 1][coordY + 1].getTextSize() != 25) {
-                    incrementarCantidad(buttons[coordX + 1][coordY + 1]);
-                }
-            }
-            //Vacios
-            if (coordX - 1 < x && coordX - 1 > 0) {
-                if (buttons[coordX - 1][coordY].getText().equals("0") && buttons[coordX - 1][coordY].getTextSize() != 25) {
-                    incrementarCantidad(buttons[coordX - 1][coordY]);
-                    huecosEnBlanco(buttons[coordX - 1][coordY].getxCoord(), buttons[coordX - 1][coordY].getyCoord());
-                }
-            }
-            //Arriba izquierda
-            if (coordX - 1 < x && coordY - 1 < y && coordX - 1 > 0 && coordY -1> 0) {
-                if (buttons[coordX - 1][coordY - 1].getText().equals("0") && buttons[coordX - 1][coordY - 1].getTextSize() != 25) {
-                    incrementarCantidad(buttons[coordX - 1][coordY - 1]);
-                    huecosEnBlanco(buttons[coordX - 1][coordY - 1].getxCoord(), buttons[coordX - 1][coordY - 1].getyCoord());
-                }
-            }
-            //Arriba derecha
-            if (coordX - 1 < x && coordY + 1 < y && coordX - 1 > 0) {
-                if (buttons[coordX - 1][coordY + 1].getText().equals("0") && buttons[coordX - 1][coordY + 1].getTextSize() != 25) {
-                    incrementarCantidad(buttons[coordX - 1][coordY + 1]);
-                    huecosEnBlanco(buttons[coordX - 1][coordY + 1].getxCoord(), buttons[coordX - 1][coordY + 1].getyCoord());
+                    huecosEnBlanco(buttons[coordX][coordY + 1].getxCoord(), buttons[coordX][coordY + 1].getyCoord());
+
                 }
             }
 
-            //4 Izquierda
-            if (coordY - 1 < y && coordY > 0) {
-                if (buttons[coordX][coordY - 1].getText().equals("0") && buttons[coordX][coordY - 1].getTextSize() != 25) {
-                    incrementarCantidad(buttons[coordX][coordY - 1]);
-                    huecosEnBlanco(buttons[coordX][coordY - 1].getxCoord(), buttons[coordX][coordY - 1].getyCoord());
-                }
-            }
-            //5
-            if (coordY + 1 < y) {
-                if (buttons[coordX][coordY + 1].getText().equals("0") && buttons[coordX][coordY + 1].getTextSize() != 25) {
-                    incrementarCantidad(buttons[coordX][coordY + 1]);
-                    huecosEnBlanco(buttons[coordX][coordY + 1].getxCoord(), buttons[coordX][coordY + 1].getyCoord());
-                }
-            }/*
+
             //6
             if (coordX + 1 < x && coordY - 1 < y && coordY -1> 0) {
-                if (buttons[coordX + 1][coordY - 1].getText().equals("0") && buttons[coordX + 1][coordY - 1].getTextSize() != 25) {
+                if (buttons[coordX + 1][coordY - 1].getText().equals("0") && buttons[coordX + 1][coordY - 1].isEnabled()) {
                     incrementarCantidad(buttons[coordX + 1][coordY - 1]);
                     huecosEnBlanco(buttons[coordX + 1][coordY - 1].getxCoord(), buttons[coordX + 1][coordY - 1].getyCoord());
+
                 }
             }
             //7
             if (coordX + 1 < x) {
-                if (buttons[coordX + 1][coordY].getText().equals("0") && buttons[coordX + 1][coordY].getTextSize() != 25) {
+                if (buttons[coordX + 1][coordY].getText().equals("0") && buttons[coordX + 1][coordY].isEnabled()) {
                     incrementarCantidad(buttons[coordX + 1][coordY]);
                     huecosEnBlanco(buttons[coordX + 1][coordY].getxCoord(), buttons[coordX + 1][coordY].getyCoord());
                 }
             }
             //8
             if (coordX + 1 < x && coordY + 1 < y) {
-                if (buttons[coordX + 1][coordY + 1].getText().equals("0") && buttons[coordX + 1][coordY + 1].getTextSize() != 25) {
+                if (buttons[coordX + 1][coordY + 1].getText().equals("0") && buttons[coordX + 1][coordY + 1].isEnabled()) {
                     incrementarCantidad(buttons[coordX + 1][coordY + 1]);
                     huecosEnBlanco(buttons[coordX + 1][coordY + 1].getxCoord(), buttons[coordX + 1][coordY + 1].getyCoord());
                 }
-            }*/
+            }
+
+
+            }
+
     }
 
     private void incrementarCantidad(ButtonXY btn) {
         btn.setTextSize(25);
         btn.setEnabled(false);
+        if(contador>0){
+            contador--;
+        }
         cantidad++;
+
     }
+
+
 
 
     /*private void inicializarCasillasButton() {
@@ -353,7 +388,7 @@ public class Game extends AppCompatActivity {
         btn.setText("" + cantidadDeBombas);
     }
 
-    private void heGanado(ButtonXY btn) {
+    /*private void heGanado(ButtonXY btn) {
         if (x == 5) {
             for (int i = 0; i < x; i++) {
                 for (int j = 0; j < y; j++) {
@@ -393,7 +428,7 @@ public class Game extends AppCompatActivity {
 
             }
         }
-    }
+    }*/
 
     public void destaparBombas() {
         for (int i = 0; i < x; i++) {
