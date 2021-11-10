@@ -3,11 +3,13 @@ package com.example.buscaminas;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.SearchManager;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.provider.BaseColumns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -39,16 +41,18 @@ public class Result extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
-        dataBase=openOrCreateDatabase("Score", Context.MODE_PRIVATE, null);
-        dataBase.execSQL("CREATE TABLE IF NOT EXISTS t_score(Score VARCHAR)");
         Bundle extras=this.getIntent().getExtras();
         puntuacion=extras.getString("PARAM_1");
+        dataBase=openOrCreateDatabase("Score", Context.MODE_PRIVATE, null);
+        dataBase.execSQL("CREATE TABLE IF NOT EXISTS t_minitabla (SCORE VARCHAR)");
         score=(TextView)findViewById(R.id.textScore);
-        if(Integer.valueOf(puntuacion)>0)
-            dataBase.execSQL("INSERT INTO t_score values(puntuacion)");
+        if(Integer.valueOf(puntuacion)>0) {
+            dataBase.execSQL("INSERT INTO t_minitabla VALUES ("+puntuacion+")");
+        }
         resultado=(TextView) findViewById(R.id.textPoints);
         resultado.setText(puntuacion);
         historic=(Button)findViewById(R.id.buttonHistoric);
+        //bestScore=(Button)findViewById(R.id.buttonBestScore);
         historic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,7 +66,7 @@ public class Result extends AppCompatActivity {
                     startActivity(chooser);
 
                 }else{
-                    Toast.makeText(getApplicationContext(),getString(R.string.txt_navegador), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),getString(R.string.txt_nav), Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -83,9 +87,15 @@ public class Result extends AppCompatActivity {
         bestScore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cursor= dataBase.rawQuery("SELECT MAX("+Score+") FROM "+t_score);
+                cursor= dataBase.rawQuery("SELECT MAX(SCORE) FROM t_minitabla", null);
+                if(cursor.getCount()==0){
+                    Toast.makeText(getApplicationContext(),getString(R.string.txt_no_score), Toast.LENGTH_SHORT).show();
+                }else if(cursor.moveToNext()){
+                    Toast.makeText(getApplicationContext(),""+cursor.getString(0), Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
     }
+
 }

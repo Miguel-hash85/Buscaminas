@@ -78,7 +78,7 @@ public class Game extends AppCompatActivity {
                 inicializarCasillas();
                 break;
             default:
-                Toast.makeText(getApplicationContext(), getString(R.string.txt_navegador), Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.txt_fail), Toast.LENGTH_LONG).show();
                 break;
         }
         // buttons = new ButtonXY[x][y];
@@ -89,7 +89,7 @@ public class Game extends AppCompatActivity {
                 button.setWidth(125);
                 button.setGravity(Gravity.CENTER);
                 button.setTextColor(Color.BLACK);
-                button.setTextSize(0);
+                //button.setTextSize(0);
                 button.setBackground(getDrawable(R.drawable.border_button));
                 button.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 button.setOnClickListener(new View.OnClickListener() {
@@ -109,7 +109,6 @@ public class Game extends AppCompatActivity {
                             huecosEnBlanco(btn.getxCoord(), btn.getyCoord());
                             cantidad++;
                             contador--;
-                            Toast.makeText(getApplicationContext(), ""+cantidad, Toast.LENGTH_SHORT).show();
                             if (cantidad == 22 || cantidad == 31 || cantidad == 42) {
                                 openResult();
                             }
@@ -151,7 +150,7 @@ public class Game extends AppCompatActivity {
 
     private void openResult() {
         destaparBombas();
-        Toast.makeText(getApplicationContext(), getString(R.string.txt_win), Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), getString(R.string.txt_win), Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(Game.this, Result.class);
         intent.putExtra("PARAM_1", buttonClock.getText());
         startActivity(intent);

@@ -12,7 +12,7 @@
     <string name="help">Help</string>
     <string name="clock">0</string>
     <string name="txt_win">You won!!!!</string>
-    <string name="txt_lose">You loose!!!!</string>
+    <string name="txt_lose">You lose!!!!</string>
     <string name="txt_fail">A problem generating the game has ocurred</string>
 
 
@@ -24,6 +24,7 @@
     <string name="bestScore">BEST SCORE</string>
     <string name="urlRanking">https://www.xataka.com/videojuegos/el-legendario-buscaminas-sigue-muy-vivo-y-hay-un-campeonato-del-mundo-que-lo-demuestra</string>
     <string name="txt_intent_app">Choose App</string>
-    <string name="txt_navegador">Not avaliable navegator</string>
+    <string name="txt_nav">Not avaliable navegator</string>
+    <string name="txt_no_score">Not avaliable score</string>
 
 </resources>
