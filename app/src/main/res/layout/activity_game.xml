@@ -22,53 +22,39 @@
 
     <Button
         android:id="@+id/buttonHelp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_width="104dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="80dp"
         android:layout_marginTop="24dp"
+        android:layout_marginEnd="80dp"
         android:backgroundTint="#817C7C"
         android:text="@string/help"
         android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/buttonClock"
         app:layout_constraintStart_toEndOf="@+id/buttonBombCount"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageButton
-        android:id="@+id/imageButtonBomb"
-        android:layout_width="70dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintStart_toEndOf="@+id/buttonHelp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/bomba"
-        tools:ignore="SpeakableTextPresentCheck" />
 
     <Button
         android:id="@+id/buttonClock"
         style="@style/Widget.MaterialComponents.Button"
         android:layout_width="93dp"
         android:layout_height="48dp"
-        android:layout_marginStart="10dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
         android:backgroundTint="#817C7C"
         android:text="@string/clock"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.666"
-        app:layout_constraintStart_toEndOf="@+id/imageButtonBomb"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="@string/clock" />
 
     <androidx.gridlayout.widget.GridLayout
         android:id="@+id/gridLayout"
-        android:layout_width="391dp"
-        android:layout_height="415dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="10dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:background="#817C7C"
         android:backgroundTint="#817C7C"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonBombCount">

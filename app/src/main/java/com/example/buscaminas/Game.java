@@ -35,6 +35,8 @@ public class Game extends AppCompatActivity {
     private int cantidad = 0;
     private Button buttonHelp;
     private Button buttonCount;
+    private ButtonXY buttonsDuplicate[][];
+    private int buttonSize=2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +44,6 @@ public class Game extends AppCompatActivity {
         setContentView(R.layout.activity_game);
         buttonClock = (Button) findViewById(R.id.buttonClock);
         buttonCount=(Button)findViewById(R.id.buttonBombCount);
-
         new CountDownTimer(300000, 1000) {
 
             public void onTick(long millisUntilFinished) {
@@ -82,6 +83,7 @@ public class Game extends AppCompatActivity {
                 y = 5;
                 contador=22;
                 buttonCount.setText(""+3);
+                buttonSize = buttonSize / (dificultad * 9);
                 inicializarCasillas();
                 break;
             case 2:
@@ -90,6 +92,7 @@ public class Game extends AppCompatActivity {
                 x = 6;
                 y = 6;
                 contador=31;
+                buttonSize = (int) (buttonSize / (dificultad * 5.5));
                 buttonCount.setText(""+5);
                 inicializarCasillas();
                 break;
@@ -99,6 +102,7 @@ public class Game extends AppCompatActivity {
                 x = 7;
                 y = 7;
                 contador=42;
+                buttonSize = (int) (buttonSize / (dificultad * 4.3));
                 buttonCount.setText(""+7);
                 inicializarCasillas();
                 break;
@@ -110,8 +114,10 @@ public class Game extends AppCompatActivity {
         for (int j = 0; j < x; j++) {
             for (int k = 0; k < y; k++) {
                 button=buttons[j][k];
-                button.setHeight(125);
-                button.setWidth(125);
+                button.setHeight(buttonSize);
+                button.setWidth(buttonSize);
+                button.setxCoord(j);
+                button.setyCoord(k);
                 button.setGravity(Gravity.CENTER);
                 button.setTextColor(Color.argb(0,0,0,0));
                 button.setTextSize(25);
@@ -160,9 +166,26 @@ public class Game extends AppCompatActivity {
                         }
                     }
                 });
+                button.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View view) {
+                        ButtonXY btn= (ButtonXY) view;
+                        if(!btn.getText().equals("\uD83C\uDFF4")){
+                            btn.setText("\uD83C\uDFF4");
+                            btn.setTextColor(Color.BLACK);
+                        }else{
+                            btn.setText(String.valueOf(buttonsDuplicate[btn.getxCoord()][btn.getyCoord()].getText()));
+                            btn.setTextColor(Color.argb(0,0,0,0));
+                        }
+                        return false;
+                    }
+                });
                 gridLayout.addView(button);
             }
             inicializarCasillasButton();
+            buttonsDuplicate=buttons;
+            //gridLayout.setBackground(getDrawable(R.drawable.bomba));
+            //gridLayout.setMinimumHeight();
         }
         //colocarMinas();
 
