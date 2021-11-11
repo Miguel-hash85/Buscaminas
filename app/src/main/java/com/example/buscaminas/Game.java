@@ -2,6 +2,7 @@ package com.example.buscaminas;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.SearchManager;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -29,14 +30,19 @@ public class Game extends AppCompatActivity {
     private ButtonXY buttons[][];
     private  int contador;
     private int heGanado;
+    private Intent chooser = null;
     //private ArrayList<ButtonXY> buttons = new ArrayList<>();
     private int cantidad = 0;
+    private Button buttonHelp;
+    private Button buttonCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         buttonClock = (Button) findViewById(R.id.buttonClock);
+        buttonCount=(Button)findViewById(R.id.buttonBombCount);
+
         new CountDownTimer(300000, 1000) {
 
             public void onTick(long millisUntilFinished) {
@@ -50,7 +56,23 @@ public class Game extends AppCompatActivity {
 
         Bundle extras = this.getIntent().getExtras();
         dificultad = extras.getInt("Level");
+        buttonHelp=(Button)findViewById(R.id.buttonHelp);
+        buttonHelp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intentImplicito= new Intent();
+                intentImplicito.setAction(Intent.ACTION_WEB_SEARCH);
+                intentImplicito.putExtra(SearchManager.QUERY,getString(R.string.urlHelp));
+                chooser=Intent.createChooser(intentImplicito,getString(R.string.txt_intent_app));
+                if(chooser.resolveActivity(getPackageManager())!=null){
 
+                    startActivity(chooser);
+
+                }else{
+                    Toast.makeText(getApplicationContext(),getString(R.string.txt_nav), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
         gridLayout = (GridLayout) findViewById(R.id.gridLayout);
         switch (dificultad) {
             case 1:
@@ -59,6 +81,7 @@ public class Game extends AppCompatActivity {
                 x = 5;
                 y = 5;
                 contador=22;
+                buttonCount.setText(""+3);
                 inicializarCasillas();
                 break;
             case 2:
@@ -67,6 +90,7 @@ public class Game extends AppCompatActivity {
                 x = 6;
                 y = 6;
                 contador=31;
+                buttonCount.setText(""+5);
                 inicializarCasillas();
                 break;
             case 3:
@@ -75,6 +99,7 @@ public class Game extends AppCompatActivity {
                 x = 7;
                 y = 7;
                 contador=42;
+                buttonCount.setText(""+7);
                 inicializarCasillas();
                 break;
             default:
@@ -88,8 +113,8 @@ public class Game extends AppCompatActivity {
                 button.setHeight(125);
                 button.setWidth(125);
                 button.setGravity(Gravity.CENTER);
-                button.setTextColor(Color.BLACK);
-                //button.setTextSize(0);
+                button.setTextColor(Color.argb(0,0,0,0));
+                button.setTextSize(25);
                 button.setBackground(getDrawable(R.drawable.border_button));
                 button.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 button.setOnClickListener(new View.OnClickListener() {
@@ -104,20 +129,32 @@ public class Game extends AppCompatActivity {
                             startActivity(intent);
                             finish();
                         } else if (btn.getText().equals("0")) {
-                            btn.setTextSize(25);
+                            btn.setTextColor(Color.BLACK);
                             btn.setEnabled(false);
                             huecosEnBlanco(btn.getxCoord(), btn.getyCoord());
                             cantidad++;
                             contador--;
-                            if (cantidad == 22 || cantidad == 31 || cantidad == 42) {
+                            if(x==5&&cantidad==22){
                                 openResult();
                             }
+                            if (x==6&&cantidad == 31) {
+                              openResult();
+                            }
+                           if(x==7&&cantidad==42){
+                               openResult();
+                           }
                         } else {
-                            btn.setTextSize(25);
+                            btn.setTextColor(Color.BLACK);
                             btn.setEnabled(false);
                             cantidad++;
                             contador--;
-                            if (cantidad == 22 || cantidad == 31 || cantidad == 42) {
+                            if(x==5&&cantidad==22){
+                                openResult();
+                            }
+                            if (x==6&&cantidad == 31) {
+                                openResult();
+                            }
+                            if(x==7&&cantidad==42){
                                 openResult();
                             }
                         }
@@ -271,7 +308,7 @@ public class Game extends AppCompatActivity {
     }
 
     private void incrementarCantidad(ButtonXY btn) {
-        btn.setTextSize(25);
+        btn.setTextColor(Color.BLACK);
         btn.setEnabled(false);
         if(contador>0){
             contador--;
@@ -434,7 +471,7 @@ public class Game extends AppCompatActivity {
             for (int j = 0; j < y; j++) {
                 if (buttons[i][j].getText().equals("9")) {
                     buttons[i][j].setText("💣");
-                    buttons[i][j].setTextSize(20);
+                    buttons[i][j].setTextColor(Color.BLACK);
                     buttons[i][j].setEnabled(false);
                 }
             }

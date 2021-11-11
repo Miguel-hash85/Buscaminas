@@ -23,9 +23,9 @@ public class Result extends AppCompatActivity {
 
 
     // The Implicit Intent we want to make
-    Intent intentImplicito = null;
+    private Intent intentImplicito = null;
     // The chooser
-    Intent chooser = null;
+    private Intent chooser = null;
     private static final int SECONDARY_ACTIVITY_1 = 1;
     private TextView score=null;
     private String puntuacion=null;

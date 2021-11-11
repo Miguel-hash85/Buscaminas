@@ -11,7 +11,7 @@
         android:layout_width="160dp"
         android:layout_height="65dp"
         android:layout_marginStart="125dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="126dp"
         android:backgroundTint="#817C7C"
         android:text="@string/tryAgain"
@@ -52,10 +52,10 @@
 
     <Button
         android:id="@+id/buttonHistoric"
-        android:layout_width="123dp"
-        android:layout_height="48dp"
+        android:layout_width="153dp"
+        android:layout_height="66dp"
         android:layout_marginStart="144dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="144dp"
         android:backgroundTint="#817C7C"
         android:text="@string/historic"

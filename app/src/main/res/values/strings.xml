@@ -14,7 +14,7 @@
     <string name="txt_win">You won!!!!</string>
     <string name="txt_lose">You lose!!!!</string>
     <string name="txt_fail">A problem generating the game has ocurred</string>
-
+    <string name="urlHelp">https://buscaminas.eu/reglas</string>
 
 
     <string name="score">SCORE:</string>

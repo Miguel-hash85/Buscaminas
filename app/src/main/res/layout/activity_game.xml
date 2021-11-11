@@ -6,62 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".Game">
 
-    <ImageButton
-        android:id="@+id/imageButtonShield"
-        android:layout_width="63dp"
-        android:layout_height="61dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider2"
-        app:layout_constraintVertical_bias="0.195"
-        app:srcCompat="@drawable/escudo"
-        tools:ignore="SpeakableTextPresentCheck" />
-
-    <ImageButton
-        android:id="@+id/imageButtonMagnifyingGlass"
-        android:layout_width="55dp"
-        android:layout_height="54dp"
-        android:layout_marginStart="176dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/lupa"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider2"
-        app:layout_constraintVertical_bias="0.182"
-        tools:ignore="SpeakableTextPresentCheck" />
-
-    <ImageButton
-        android:id="@+id/imageButtonX2"
-        android:layout_width="65dp"
-        android:layout_height="59dp"
-        android:layout_marginStart="320dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/x2"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider2"
-        app:layout_constraintVertical_bias="0.191"
-        tools:ignore="SpeakableTextPresentCheck" />
-
-    <View
-        android:id="@+id/divider2"
-        android:layout_width="409dp"
-        android:layout_height="1dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="19dp"
-        android:layout_marginEnd="1dp"
-        android:background="?android:attr/listDivider"
-        android:backgroundTint="#000000"
-        android:foregroundTint="#000000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progressBar" />
-
     <Button
         android:id="@+id/buttonBombCount"
         android:layout_width="53dp"
@@ -115,19 +59,6 @@
         app:layout_constraintStart_toEndOf="@+id/imageButtonBomb"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="@string/clock" />
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="361dp"
-        android:layout_height="13dp"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="23dp"
-        android:layout_marginEnd="15dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.523"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gridLayout" />
 
     <androidx.gridlayout.widget.GridLayout
         android:id="@+id/gridLayout"

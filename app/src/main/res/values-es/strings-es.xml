@@ -15,13 +15,14 @@
     <string name="txt_win">Has Ganado!!!!</string>
     <string name="txt_lose">Has perdido!!!!</string>
     <string name="txt_fail">Ha ocurrido un problema al generar el juego</string>
+    <string name="urlHelp">https://buscaminas.eu/reglas</string>
 
 
 
     <string name="score">PUNTAJE:</string>
     <string name="points">PUNTOS</string>
     <string name="historic">HISTÓRICO</string>
-    <string name="tryAgain">INTENTA OTRA VEZ</string>
+    <string name="tryAgain">INTENTALO OTRA VEZ</string>
     <string name="bestScore">MEJOR PUNTUACIÓN</string>
     <string name="urlRanking">https://www.xataka.com/videojuegos/el-legendario-buscaminas-sigue-muy-vivo-y-hay-un-campeonato-del-mundo-que-lo-demuestra</string>
     <string name="txt_intent_app">Elija la aplicación</string>
