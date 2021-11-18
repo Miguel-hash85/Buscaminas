@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.Gravity;
@@ -14,6 +16,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.gridlayout.widget.GridLayout;
+
+import java.io.IOException;
 
 public class Game extends AppCompatActivity {
     private GridLayout gridLayout;
@@ -32,6 +36,7 @@ public class Game extends AppCompatActivity {
     private Button buttonCount;
     private int buttonSize=2000;
     private int numeros[][];
+    private MediaPlayer mediaPlayer=new MediaPlayer();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +75,7 @@ public class Game extends AppCompatActivity {
             }
         });
         gridLayout = (GridLayout) findViewById(R.id.gridLayout);
+        gridLayout.getBackground().setAlpha(60);
         switch (dificultad) {
             case 1:
                 gridLayout.setColumnCount(5);
@@ -204,7 +210,9 @@ public class Game extends AppCompatActivity {
     }
 
     private void openResult() {
+        mediaPlayer=MediaPlayer.create(Game.this,R.raw.win);
         destaparBombas();
+        mediaPlayer.start();
         Toast.makeText(getApplicationContext(), getString(R.string.txt_win), Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(Game.this, Result.class);
         intent.putExtra("PARAM_1", buttonClock.getText());
@@ -443,49 +451,9 @@ public class Game extends AppCompatActivity {
         btn.setNum(cantidadDeBombas);
     }
 
-    /*private void heGanado(ButtonXY btn) {
-        if (x == 5) {
-            for (int i = 0; i < x; i++) {
-                for (int j = 0; j < y; j++) {
-                    if (buttons[i][j].equals(btn) && !buttons[i][j].getText().equals("0")) {
-                        cantidad++;
-                        i = x;
-                        j = y;
-                    }
-
-                }
-
-            }
-        }
-        if (x == 6) {
-            for (int i = 0; i < x; i++) {
-                for (int j = 0; j < y; j++) {
-                    if (buttons[i][j].equals(btn) && !buttons[i][j].getText().equals("0")) {
-                        cantidad++;
-                        i = x;
-                        j = y;
-                    }
-
-                }
-
-            }
-        }
-        if (x == 7) {
-            for (int i = 0; i < x; i++) {
-                for (int j = 0; j < y; j++) {
-                    if (buttons[i][j].equals(btn) && !buttons[i][j].getText().equals("0")) {
-                        cantidad++;
-                        i = x;
-                        j = y;
-                    }
-
-                }
-
-            }
-        }
-    }*/
-
     public void destaparBombas() {
+        mediaPlayer=MediaPlayer.create(Game.this,R.raw.fail);
+        mediaPlayer.start();
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
                 if (buttons[i][j].getText().equals("9")) {

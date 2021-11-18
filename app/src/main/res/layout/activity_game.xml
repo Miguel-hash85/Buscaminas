@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gaming"
     tools:context=".Game">
 
     <Button
@@ -50,11 +51,14 @@
 
     <androidx.gridlayout.widget.GridLayout
         android:id="@+id/gridLayout"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/gaming"
+        android:layout_width="407dp"
+        android:layout_height="546dp"
+        android:layout_marginTop="116dp"
+        android:background="#8E7373"
+        android:backgroundTint="#7C6D6D"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.407"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonBombCount">
 
