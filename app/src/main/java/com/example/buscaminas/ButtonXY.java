@@ -8,7 +8,7 @@ public class ButtonXY extends androidx.appcompat.widget.AppCompatButton{
 
     private int xCoord;
     private int yCoord;
-
+    private int num;
 
     public ButtonXY(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
@@ -19,6 +19,13 @@ public class ButtonXY extends androidx.appcompat.widget.AppCompatButton{
         return xCoord;
     }
 
+    public int getNum() {
+        return num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
+    }
 
     public void setxCoord(int xCoord) {
         this.xCoord = xCoord;

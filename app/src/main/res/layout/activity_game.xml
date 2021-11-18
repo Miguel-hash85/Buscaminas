@@ -23,7 +23,7 @@
     <Button
         android:id="@+id/buttonHelp"
         android:layout_width="104dp"
-        android:layout_height="47dp"
+        android:layout_height="48dp"
         android:layout_marginStart="80dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="80dp"
@@ -52,8 +52,7 @@
         android:id="@+id/gridLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="#817C7C"
-        android:backgroundTint="#817C7C"
+        android:background="@drawable/gaming"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

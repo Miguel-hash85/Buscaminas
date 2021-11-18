@@ -11,13 +11,9 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.gridlayout.widget.GridLayout;
-
-import java.util.ArrayList;
-import java.util.Random;
 
 public class Game extends AppCompatActivity {
     private GridLayout gridLayout;
@@ -29,14 +25,13 @@ public class Game extends AppCompatActivity {
     private ButtonXY button;
     private ButtonXY buttons[][];
     private  int contador;
-    private int heGanado;
     private Intent chooser = null;
     //private ArrayList<ButtonXY> buttons = new ArrayList<>();
     private int cantidad = 0;
     private Button buttonHelp;
     private Button buttonCount;
-    private ButtonXY buttonsDuplicate[][];
     private int buttonSize=2000;
+    private int numeros[][];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,7 +144,7 @@ public class Game extends AppCompatActivity {
                            if(x==7&&cantidad==42){
                                openResult();
                            }
-                        } else {
+                        } else{
                             btn.setTextColor(Color.BLACK);
                             btn.setEnabled(false);
                             cantidad++;
@@ -174,7 +169,7 @@ public class Game extends AppCompatActivity {
                             btn.setText("\uD83C\uDFF4");
                             btn.setTextColor(Color.BLACK);
                         }else{
-                            btn.setText(String.valueOf(buttonsDuplicate[btn.getxCoord()][btn.getyCoord()].getText()));
+                            btn.setText(""+btn.getNum());
                             btn.setTextColor(Color.argb(0,0,0,0));
                         }
                         return false;
@@ -183,7 +178,6 @@ public class Game extends AppCompatActivity {
                 gridLayout.addView(button);
             }
             inicializarCasillasButton();
-            buttonsDuplicate=buttons;
             //gridLayout.setBackground(getDrawable(R.drawable.bomba));
             //gridLayout.setMinimumHeight();
         }
@@ -197,6 +191,7 @@ public class Game extends AppCompatActivity {
         Bundle savedInstanceState
     }*/
     private void inicializarCasillasButton() {
+        numeros=new int[x][y];
         for (int k = 0; k < x; k++) {
             for (int j = 0; j < y; j++) {
                 if (buttons[k][j].getText().equals("0")) {
@@ -222,22 +217,22 @@ public class Game extends AppCompatActivity {
         //boolean salir=false;
         ButtonXY aux = null;
             if(contador>0) {
-                if (coordX - 1 < x && coordX - 1 > 0) {
+                if (coordX - 1 < x && coordX - 1 >= 0) {
                     if (!buttons[coordX - 1][coordY].getText().equals("0") && buttons[coordX - 1][coordY].isEnabled()) {//fila arriba
                         incrementarCantidad(buttons[coordX - 1][coordY]);
                     }
                 }
-                if (coordX - 1 < x && coordY - 1 < y && coordX - 1 > 0 && coordY - 1 > 0) {
+                if (coordX - 1 < x && coordY - 1 < y && coordX - 1 >= 0 && coordY - 1 >= 0) {
                     if (!buttons[coordX - 1][coordY - 1].getText().equals("0") && buttons[coordX - 1][coordY - 1].isEnabled()) {//arriba izquierda
                         incrementarCantidad(buttons[coordX - 1][coordY - 1]);
                     }
                 }
-                if (coordX - 1 < x && coordY + 1 < y && coordX - 1 > 0) {
+                if (coordX - 1 < x && coordY + 1 < y && coordX - 1 >= 0) {
                     if (!buttons[coordX - 1][coordY + 1].getText().equals("0") && buttons[coordX - 1][coordY + 1].isEnabled()) {
                         incrementarCantidad(buttons[coordX - 1][coordY + 1]);
                     }
                 }
-                if (coordY - 1 < y && coordY - 1 > 0) {
+                if (coordY - 1 < y && coordY - 1 >= 0) {
                     if (!buttons[coordX][coordY - 1].getText().equals("0") && buttons[coordX][coordY - 1].isEnabled()) {
                         incrementarCantidad(buttons[coordX][coordY - 1]);
                     }
@@ -247,7 +242,7 @@ public class Game extends AppCompatActivity {
                         incrementarCantidad(buttons[coordX][coordY + 1]);
                     }
                 }
-                if (coordX + 1 < x && coordY - 1 < y && coordY - 1 > 0) {
+                if (coordX + 1 < x && coordY - 1 < y && coordY - 1 >= 0) {
                     if (!buttons[coordX + 1][coordY - 1].getText().equals("0") && buttons[coordX + 1][coordY - 1].isEnabled()) {
                         incrementarCantidad(buttons[coordX + 1][coordY - 1]);
                     }
@@ -263,21 +258,21 @@ public class Game extends AppCompatActivity {
                     }
                 }
                 //Vacios 0
-                if (coordX - 1 < x && coordX - 1 > 0) {
+                if (coordX - 1 < x && coordX - 1 >= 0) {
                     if (buttons[coordX - 1][coordY].getText().equals("0") && buttons[coordX - 1][coordY].isEnabled()) {
                         incrementarCantidad(buttons[coordX - 1][coordY]);
                         huecosEnBlanco(buttons[coordX - 1][coordY].getxCoord(), buttons[coordX - 1][coordY].getyCoord());
                     }
                 }
                 //Arriba izquierda
-                if (coordX - 1 < x && coordY - 1 < y && coordX - 1 > 0 && coordY - 1 > 0) {
+                if (coordX - 1 < x && coordY - 1 < y && coordX - 1 >= 0 && coordY - 1 >= 0) {
                     if (buttons[coordX - 1][coordY - 1].getText().equals("0") && buttons[coordX - 1][coordY - 1].isEnabled()) {
                         incrementarCantidad(buttons[coordX - 1][coordY - 1]);
                         huecosEnBlanco(buttons[coordX - 1][coordY - 1].getxCoord(), buttons[coordX - 1][coordY - 1].getyCoord());
                     }
                 }
                 //Arriba derecha
-                if (coordX - 1 < x && coordY + 1 < y && coordX - 1 > 0) {
+                if (coordX - 1 < x && coordY + 1 < y && coordX - 1 >= 0) {
                     if (buttons[coordX - 1][coordY + 1].getText().equals("0") && buttons[coordX - 1][coordY + 1].isEnabled()) {
                         incrementarCantidad(buttons[coordX - 1][coordY + 1]);
                         huecosEnBlanco(buttons[coordX - 1][coordY + 1].getxCoord(), buttons[coordX - 1][coordY + 1].getyCoord());
@@ -303,7 +298,7 @@ public class Game extends AppCompatActivity {
 
 
             //6
-            if (coordX + 1 < x && coordY - 1 < y && coordY -1> 0) {
+            if (coordX + 1 < x && coordY - 1 < y && coordY -1>= 0) {
                 if (buttons[coordX + 1][coordY - 1].getText().equals("0") && buttons[coordX + 1][coordY - 1].isEnabled()) {
                     incrementarCantidad(buttons[coordX + 1][coordY - 1]);
                     huecosEnBlanco(buttons[coordX + 1][coordY - 1].getxCoord(), buttons[coordX + 1][coordY - 1].getyCoord());
@@ -394,7 +389,7 @@ public class Game extends AppCompatActivity {
         }
     }
 
-    private void contarCoordenada(int fila, int columna,Button btn) {
+    private void contarCoordenada(int fila, int columna,ButtonXY btn) {
         int cantidadDeBombas = 0;
 
         if (fila - 1 >= 0 && columna - 1 >= 0) {//si tengo una fila a la izquierda y una columna encima(diagonal a la izquierda arriba)
@@ -445,6 +440,7 @@ public class Game extends AppCompatActivity {
             }
         }
         btn.setText("" + cantidadDeBombas);
+        btn.setNum(cantidadDeBombas);
     }
 
     /*private void heGanado(ButtonXY btn) {
