@@ -1,25 +1,26 @@
 package com.example.buscaminas;
 
+import static java.lang.Thread.sleep;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.SearchManager;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.gridlayout.widget.GridLayout;
 
-import java.io.IOException;
-
-public class Game extends AppCompatActivity {
+public class Game extends AppCompatActivity{
     private GridLayout gridLayout;
     private Intent intentImplicito = null;
     private int dificultad;
@@ -28,22 +29,28 @@ public class Game extends AppCompatActivity {
     private Button buttonClock;
     private ButtonXY button;
     private ButtonXY buttons[][];
-    private  int contador;
+    private int contador;
     private Intent chooser = null;
     //private ArrayList<ButtonXY> buttons = new ArrayList<>();
     private int cantidad = 0;
-    private Button buttonHelp;
-    private Button buttonCount;
-    private int buttonSize=2000;
+    private ImageButton buttonHelp;
+    private ImageButton buttonCount;
+    private int buttonSize = 2000;
     private int numeros[][];
-    private MediaPlayer mediaPlayer=new MediaPlayer();
+    private MediaPlayer mediaPlayer;
+    private ImageButton buttonDuke;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_game);
         buttonClock = (Button) findViewById(R.id.buttonClock);
-        buttonCount=(Button)findViewById(R.id.buttonBombCount);
+        buttonCount = (ImageButton) findViewById(R.id.buttonCount);
+        buttonDuke = (ImageButton) findViewById(R.id.buttonDuke);
+        buttonDuke.setImageDrawable(getDrawable(R.drawable.shut));
+        buttonDuke.getBackground().setAlpha(25);
         new CountDownTimer(300000, 1000) {
 
             public void onTick(long millisUntilFinished) {
@@ -57,33 +64,77 @@ public class Game extends AppCompatActivity {
 
         Bundle extras = this.getIntent().getExtras();
         dificultad = extras.getInt("Level");
-        buttonHelp=(Button)findViewById(R.id.buttonHelp);
+        buttonHelp = (ImageButton) findViewById(R.id.buttonHelp);
         buttonHelp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intentImplicito= new Intent();
+                intentImplicito = new Intent();
                 intentImplicito.setAction(Intent.ACTION_WEB_SEARCH);
-                intentImplicito.putExtra(SearchManager.QUERY,getString(R.string.urlHelp));
-                chooser=Intent.createChooser(intentImplicito,getString(R.string.txt_intent_app));
-                if(chooser.resolveActivity(getPackageManager())!=null){
+                intentImplicito.putExtra(SearchManager.QUERY, getString(R.string.urlHelp));
+                chooser = Intent.createChooser(intentImplicito, getString(R.string.txt_intent_app));
+                if (chooser.resolveActivity(getPackageManager()) != null) {
 
                     startActivity(chooser);
 
-                }else{
-                    Toast.makeText(getApplicationContext(),getString(R.string.txt_nav), Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), getString(R.string.txt_nav), Toast.LENGTH_LONG).show();
                 }
             }
         });
+        buttonDuke.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int num = (int) (Math.random() * 7 + 1);
+                switch (num) {
+                    case 1:
+                        mediaPlayer = MediaPlayer.create(Game.this, R.raw.talking_me);
+                        talkingDuke();
+                        break;
+                    case 2:
+                        mediaPlayer = MediaPlayer.create(Game.this, R.raw.ugly);
+                        talkingDuke();
+                        break;
+                    case 3:
+                        mediaPlayer = MediaPlayer.create(Game.this, R.raw.back_to_work);
+                        talkingDuke();
+                        break;
+                    case 4:
+                        mediaPlayer = MediaPlayer.create(Game.this, R.raw.gonna_die);
+                        talkingDuke();
+                        break;
+                    case 5:
+                        mediaPlayer = MediaPlayer.create(Game.this, R.raw.really);
+                        talkingDuke();
+                        break;
+                    case 6:
+                        mediaPlayer = MediaPlayer.create(Game.this, R.raw.wasting_time);
+                        talkingDuke();
+                        break;
+                    case 7:
+                        mediaPlayer = MediaPlayer.create(Game.this, R.raw.youre_pissing);
+                        talkingDuke();
+                        break;
+                }
+                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        buttonDuke.setImageDrawable(getDrawable(R.drawable.shut));
+                    }
+                });
+            }
+
+        });
+
         gridLayout = (GridLayout) findViewById(R.id.gridLayout);
-        gridLayout.getBackground().setAlpha(60);
+        gridLayout.getBackground().setAlpha(80);
         switch (dificultad) {
             case 1:
                 gridLayout.setColumnCount(5);
                 gridLayout.setRowCount(5);
                 x = 5;
                 y = 5;
-                contador=22;
-                buttonCount.setText(""+3);
+                contador = 22;
+                buttonCount.setBackground(getDrawable(R.drawable.three));
                 buttonSize = buttonSize / (dificultad * 9);
                 inicializarCasillas();
                 break;
@@ -92,9 +143,9 @@ public class Game extends AppCompatActivity {
                 gridLayout.setRowCount(6);
                 x = 6;
                 y = 6;
-                contador=31;
+                contador = 31;
                 buttonSize = (int) (buttonSize / (dificultad * 5.5));
-                buttonCount.setText(""+5);
+                buttonCount.setBackground(getDrawable(R.drawable.five));
                 inicializarCasillas();
                 break;
             case 3:
@@ -102,9 +153,9 @@ public class Game extends AppCompatActivity {
                 gridLayout.setRowCount(7);
                 x = 7;
                 y = 7;
-                contador=42;
+                contador = 42;
                 buttonSize = (int) (buttonSize / (dificultad * 4.3));
-                buttonCount.setText(""+7);
+                buttonCount.setBackground(getDrawable(R.drawable.seven));
                 inicializarCasillas();
                 break;
             default:
@@ -114,15 +165,15 @@ public class Game extends AppCompatActivity {
         // buttons = new ButtonXY[x][y];
         for (int j = 0; j < x; j++) {
             for (int k = 0; k < y; k++) {
-                button=buttons[j][k];
+                button = buttons[j][k];
                 button.setHeight(buttonSize);
                 button.setWidth(buttonSize);
                 button.setxCoord(j);
                 button.setyCoord(k);
                 button.setGravity(Gravity.CENTER);
-                button.setTextColor(Color.argb(0,0,0,0));
+                button.setTextColor(Color.argb(0, 0, 0, 0));
                 button.setTextSize(25);
-                button.setBackground(getDrawable(R.drawable.border_button));
+                button.setBackground(getDrawable(R.drawable.border_button_black));
                 button.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -136,32 +187,35 @@ public class Game extends AppCompatActivity {
                             startActivity(intent);
                             finish();
                         } else if (btn.getText().equals("0")) {
-                            btn.setTextColor(Color.BLACK);
+                            textColor(btn);
                             btn.setEnabled(false);
+                            btn.setBackgroundColor(Color.argb(50, 1, 1, 1));
                             huecosEnBlanco(btn.getxCoord(), btn.getyCoord());
                             cantidad++;
                             contador--;
-                            if(x==5&&cantidad==22){
+                            if (x == 5 && cantidad == 22) {
                                 openResult();
                             }
-                            if (x==6&&cantidad == 31) {
-                              openResult();
+                            if (x == 6 && cantidad == 31) {
+                                openResult();
                             }
-                           if(x==7&&cantidad==42){
-                               openResult();
-                           }
-                        } else{
-                            btn.setTextColor(Color.BLACK);
+                            if (x == 7 && cantidad == 42) {
+                                openResult();
+                            }
+                        } else {
+                            textColor(btn);
                             btn.setEnabled(false);
+                            btn.setBackgroundColor(Color.argb(50, 1, 1, 1));
+                            //btn.getBackground().setAlpha(60);
                             cantidad++;
                             contador--;
-                            if(x==5&&cantidad==22){
+                            if (x == 5 && cantidad == 22) {
                                 openResult();
                             }
-                            if (x==6&&cantidad == 31) {
+                            if (x == 6 && cantidad == 31) {
                                 openResult();
                             }
-                            if(x==7&&cantidad==42){
+                            if (x == 7 && cantidad == 42) {
                                 openResult();
                             }
                         }
@@ -170,13 +224,13 @@ public class Game extends AppCompatActivity {
                 button.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View view) {
-                        ButtonXY btn= (ButtonXY) view;
-                        if(!btn.getText().equals("\uD83C\uDFF4")){
+                        ButtonXY btn = (ButtonXY) view;
+                        if (!btn.getText().equals("\uD83C\uDFF4")) {
                             btn.setText("\uD83C\uDFF4");
                             btn.setTextColor(Color.BLACK);
-                        }else{
-                            btn.setText(""+btn.getNum());
-                            btn.setTextColor(Color.argb(0,0,0,0));
+                        } else {
+                            btn.setText("" + btn.getNum());
+                            btn.setTextColor(Color.argb(0, 0, 0, 0));
                         }
                         return false;
                     }
@@ -188,16 +242,20 @@ public class Game extends AppCompatActivity {
             //gridLayout.setMinimumHeight();
         }
         //colocarMinas();
-
     }
 
-   /* @Override
-    protected void onResume() {
-        super.onResume();
-        Bundle savedInstanceState
-    }*/
+    /* @Override
+     protected void onResume() {
+         super.onResume();
+         Bundle savedInstanceState
+     }*/
+    private void talkingDuke() {
+        mediaPlayer.start();
+        buttonDuke.setImageDrawable(getDrawable(R.drawable.loud));
+    }
+
     private void inicializarCasillasButton() {
-        numeros=new int[x][y];
+        numeros = new int[x][y];
         for (int k = 0; k < x; k++) {
             for (int j = 0; j < y; j++) {
                 if (buttons[k][j].getText().equals("0")) {
@@ -210,9 +268,7 @@ public class Game extends AppCompatActivity {
     }
 
     private void openResult() {
-        mediaPlayer=MediaPlayer.create(Game.this,R.raw.win);
         destaparBombas();
-        mediaPlayer.start();
         Toast.makeText(getApplicationContext(), getString(R.string.txt_win), Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(Game.this, Result.class);
         intent.putExtra("PARAM_1", buttonClock.getText());
@@ -224,77 +280,77 @@ public class Game extends AppCompatActivity {
 
         //boolean salir=false;
         ButtonXY aux = null;
-            if(contador>0) {
-                if (coordX - 1 < x && coordX - 1 >= 0) {
-                    if (!buttons[coordX - 1][coordY].getText().equals("0") && buttons[coordX - 1][coordY].isEnabled()) {//fila arriba
-                        incrementarCantidad(buttons[coordX - 1][coordY]);
-                    }
+        if (contador > 0) {
+            if (coordX - 1 < x && coordX - 1 >= 0) {
+                if (!buttons[coordX - 1][coordY].getText().equals("0") && buttons[coordX - 1][coordY].isEnabled()) {//fila arriba
+                    incrementarCantidad(buttons[coordX - 1][coordY]);
                 }
-                if (coordX - 1 < x && coordY - 1 < y && coordX - 1 >= 0 && coordY - 1 >= 0) {
-                    if (!buttons[coordX - 1][coordY - 1].getText().equals("0") && buttons[coordX - 1][coordY - 1].isEnabled()) {//arriba izquierda
-                        incrementarCantidad(buttons[coordX - 1][coordY - 1]);
-                    }
+            }
+            if (coordX - 1 < x && coordY - 1 < y && coordX - 1 >= 0 && coordY - 1 >= 0) {
+                if (!buttons[coordX - 1][coordY - 1].getText().equals("0") && buttons[coordX - 1][coordY - 1].isEnabled()) {//arriba izquierda
+                    incrementarCantidad(buttons[coordX - 1][coordY - 1]);
                 }
-                if (coordX - 1 < x && coordY + 1 < y && coordX - 1 >= 0) {
-                    if (!buttons[coordX - 1][coordY + 1].getText().equals("0") && buttons[coordX - 1][coordY + 1].isEnabled()) {
-                        incrementarCantidad(buttons[coordX - 1][coordY + 1]);
-                    }
+            }
+            if (coordX - 1 < x && coordY + 1 < y && coordX - 1 >= 0) {
+                if (!buttons[coordX - 1][coordY + 1].getText().equals("0") && buttons[coordX - 1][coordY + 1].isEnabled()) {
+                    incrementarCantidad(buttons[coordX - 1][coordY + 1]);
                 }
-                if (coordY - 1 < y && coordY - 1 >= 0) {
-                    if (!buttons[coordX][coordY - 1].getText().equals("0") && buttons[coordX][coordY - 1].isEnabled()) {
-                        incrementarCantidad(buttons[coordX][coordY - 1]);
-                    }
+            }
+            if (coordY - 1 < y && coordY - 1 >= 0) {
+                if (!buttons[coordX][coordY - 1].getText().equals("0") && buttons[coordX][coordY - 1].isEnabled()) {
+                    incrementarCantidad(buttons[coordX][coordY - 1]);
                 }
-                if (coordY + 1 < y) {
-                    if (!buttons[coordX][coordY + 1].getText().equals("0") && buttons[coordX][coordY + 1].isEnabled()) {
-                        incrementarCantidad(buttons[coordX][coordY + 1]);
-                    }
+            }
+            if (coordY + 1 < y) {
+                if (!buttons[coordX][coordY + 1].getText().equals("0") && buttons[coordX][coordY + 1].isEnabled()) {
+                    incrementarCantidad(buttons[coordX][coordY + 1]);
                 }
-                if (coordX + 1 < x && coordY - 1 < y && coordY - 1 >= 0) {
-                    if (!buttons[coordX + 1][coordY - 1].getText().equals("0") && buttons[coordX + 1][coordY - 1].isEnabled()) {
-                        incrementarCantidad(buttons[coordX + 1][coordY - 1]);
-                    }
+            }
+            if (coordX + 1 < x && coordY - 1 < y && coordY - 1 >= 0) {
+                if (!buttons[coordX + 1][coordY - 1].getText().equals("0") && buttons[coordX + 1][coordY - 1].isEnabled()) {
+                    incrementarCantidad(buttons[coordX + 1][coordY - 1]);
                 }
-                if (coordX + 1 < x) {
-                    if (!buttons[coordX + 1][coordY].getText().equals("0") && buttons[coordX + 1][coordY].isEnabled()) {
-                        incrementarCantidad(buttons[coordX + 1][coordY]);
-                    }
+            }
+            if (coordX + 1 < x) {
+                if (!buttons[coordX + 1][coordY].getText().equals("0") && buttons[coordX + 1][coordY].isEnabled()) {
+                    incrementarCantidad(buttons[coordX + 1][coordY]);
                 }
-                if (coordX + 1 < x && coordY + 1 < y) {
-                    if (!buttons[coordX + 1][coordY + 1].getText().equals("0") && buttons[coordX + 1][coordY + 1].isEnabled()) {
-                        incrementarCantidad(buttons[coordX + 1][coordY + 1]);
-                    }
+            }
+            if (coordX + 1 < x && coordY + 1 < y) {
+                if (!buttons[coordX + 1][coordY + 1].getText().equals("0") && buttons[coordX + 1][coordY + 1].isEnabled()) {
+                    incrementarCantidad(buttons[coordX + 1][coordY + 1]);
                 }
-                //Vacios 0
-                if (coordX - 1 < x && coordX - 1 >= 0) {
-                    if (buttons[coordX - 1][coordY].getText().equals("0") && buttons[coordX - 1][coordY].isEnabled()) {
-                        incrementarCantidad(buttons[coordX - 1][coordY]);
-                        huecosEnBlanco(buttons[coordX - 1][coordY].getxCoord(), buttons[coordX - 1][coordY].getyCoord());
-                    }
+            }
+            //Vacios 0
+            if (coordX - 1 < x && coordX - 1 >= 0) {
+                if (buttons[coordX - 1][coordY].getText().equals("0") && buttons[coordX - 1][coordY].isEnabled()) {
+                    incrementarCantidad(buttons[coordX - 1][coordY]);
+                    huecosEnBlanco(buttons[coordX - 1][coordY].getxCoord(), buttons[coordX - 1][coordY].getyCoord());
                 }
-                //Arriba izquierda
-                if (coordX - 1 < x && coordY - 1 < y && coordX - 1 >= 0 && coordY - 1 >= 0) {
-                    if (buttons[coordX - 1][coordY - 1].getText().equals("0") && buttons[coordX - 1][coordY - 1].isEnabled()) {
-                        incrementarCantidad(buttons[coordX - 1][coordY - 1]);
-                        huecosEnBlanco(buttons[coordX - 1][coordY - 1].getxCoord(), buttons[coordX - 1][coordY - 1].getyCoord());
-                    }
+            }
+            //Arriba izquierda
+            if (coordX - 1 < x && coordY - 1 < y && coordX - 1 >= 0 && coordY - 1 >= 0) {
+                if (buttons[coordX - 1][coordY - 1].getText().equals("0") && buttons[coordX - 1][coordY - 1].isEnabled()) {
+                    incrementarCantidad(buttons[coordX - 1][coordY - 1]);
+                    huecosEnBlanco(buttons[coordX - 1][coordY - 1].getxCoord(), buttons[coordX - 1][coordY - 1].getyCoord());
                 }
-                //Arriba derecha
-                if (coordX - 1 < x && coordY + 1 < y && coordX - 1 >= 0) {
-                    if (buttons[coordX - 1][coordY + 1].getText().equals("0") && buttons[coordX - 1][coordY + 1].isEnabled()) {
-                        incrementarCantidad(buttons[coordX - 1][coordY + 1]);
-                        huecosEnBlanco(buttons[coordX - 1][coordY + 1].getxCoord(), buttons[coordX - 1][coordY + 1].getyCoord());
-                    }
+            }
+            //Arriba derecha
+            if (coordX - 1 < x && coordY + 1 < y && coordX - 1 >= 0) {
+                if (buttons[coordX - 1][coordY + 1].getText().equals("0") && buttons[coordX - 1][coordY + 1].isEnabled()) {
+                    incrementarCantidad(buttons[coordX - 1][coordY + 1]);
+                    huecosEnBlanco(buttons[coordX - 1][coordY + 1].getxCoord(), buttons[coordX - 1][coordY + 1].getyCoord());
                 }
+            }
 
-                //4 Izquierda
-                if (coordY - 1 < y && coordY > 0) {
-                    if (buttons[coordX][coordY - 1].getText().equals("0") && buttons[coordX][coordY - 1].isEnabled()) {
-                        incrementarCantidad(buttons[coordX][coordY - 1]);
-                        huecosEnBlanco(buttons[coordX][coordY - 1].getxCoord(), buttons[coordX][coordY - 1].getyCoord());
-                    }
+            //4 Izquierda
+            if (coordY - 1 < y && coordY > 0) {
+                if (buttons[coordX][coordY - 1].getText().equals("0") && buttons[coordX][coordY - 1].isEnabled()) {
+                    incrementarCantidad(buttons[coordX][coordY - 1]);
+                    huecosEnBlanco(buttons[coordX][coordY - 1].getxCoord(), buttons[coordX][coordY - 1].getyCoord());
                 }
-                //5
+            }
+            //5
 
             if (coordY + 1 < y) {
                 if (buttons[coordX][coordY + 1].getText().equals("0") && buttons[coordX][coordY + 1].isEnabled()) {
@@ -306,7 +362,7 @@ public class Game extends AppCompatActivity {
 
 
             //6
-            if (coordX + 1 < x && coordY - 1 < y && coordY -1>= 0) {
+            if (coordX + 1 < x && coordY - 1 < y && coordY - 1 >= 0) {
                 if (buttons[coordX + 1][coordY - 1].getText().equals("0") && buttons[coordX + 1][coordY - 1].isEnabled()) {
                     incrementarCantidad(buttons[coordX + 1][coordY - 1]);
                     huecosEnBlanco(buttons[coordX + 1][coordY - 1].getxCoord(), buttons[coordX + 1][coordY - 1].getyCoord());
@@ -329,18 +385,39 @@ public class Game extends AppCompatActivity {
             }
 
 
-            }
+        }
 
     }
 
     private void incrementarCantidad(ButtonXY btn) {
-        btn.setTextColor(Color.BLACK);
+        btn.setBackgroundColor(Color.argb(50, 1, 1, 1));
+        textColor(btn);
         btn.setEnabled(false);
-        if(contador>0){
+        if (contador > 0) {
             contador--;
         }
         cantidad++;
 
+    }
+
+    public void textColor(ButtonXY btn) {
+        if (btn.getText().equals("1")) {
+            btn.setTextColor(Color.WHITE);
+        } else if (btn.getText().equals("2")) {
+            btn.setTextColor(Color.GREEN);
+        } else if (btn.getText().equals("3")) {
+            btn.setTextColor(Color.YELLOW);
+        } else if (btn.getText().equals("4")) {
+            btn.setTextColor(Color.argb(100, 67, 16, 24));
+        } else if (btn.getText().equals("5")) {
+            btn.setTextColor(Color.MAGENTA);
+        } else if (btn.getText().equals("6")) {
+            btn.setTextColor(Color.argb(100, 50, 25, 0));
+        } else if (btn.getText().equals("7")) {
+            btn.setTextColor(Color.GRAY);
+        } else if (btn.getText().equals("8")) {
+            btn.setTextColor(Color.BLACK);
+        }
     }
 
 
@@ -397,7 +474,7 @@ public class Game extends AppCompatActivity {
         }
     }
 
-    private void contarCoordenada(int fila, int columna,ButtonXY btn) {
+    private void contarCoordenada(int fila, int columna, ButtonXY btn) {
         int cantidadDeBombas = 0;
 
         if (fila - 1 >= 0 && columna - 1 >= 0) {//si tengo una fila a la izquierda y una columna encima(diagonal a la izquierda arriba)
@@ -452,17 +529,35 @@ public class Game extends AppCompatActivity {
     }
 
     public void destaparBombas() {
-        mediaPlayer=MediaPlayer.create(Game.this,R.raw.fail);
-        mediaPlayer.start();
-        for (int i = 0; i < x; i++) {
-            for (int j = 0; j < y; j++) {
-                if (buttons[i][j].getText().equals("9")) {
-                    buttons[i][j].setText("💣");
-                    buttons[i][j].setTextColor(Color.BLACK);
-                    buttons[i][j].setEnabled(false);
+        if (x == 5 && cantidad == 22) {
+            winSound();
+        } else if (x == 6 && cantidad == 31) {
+            winSound();
+        } else if (x == 7 && cantidad == 42) {
+            winSound();
+        } else {
+            mediaPlayer = MediaPlayer.create(Game.this, R.raw.wasted);
+            mediaPlayer.start();
+        }
+        try {
+            sleep(1500);
+            for (int i = 0; i < x; i++) {
+                for (int j = 0; j < y; j++) {
+                    if (buttons[i][j].getText().equals("9")) {
+                        buttons[i][j].setText("💣");
+                        buttons[i][j].setTextColor(Color.BLACK);
+                        buttons[i][j].setEnabled(false);
+                    }
                 }
             }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+
     }
 
+    private void winSound() {
+        mediaPlayer = MediaPlayer.create(Game.this, R.raw.damm);
+        mediaPlayer.start();
+    }
 }
