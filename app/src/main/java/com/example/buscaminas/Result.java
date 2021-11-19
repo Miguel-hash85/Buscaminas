@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.provider.BaseColumns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,10 +28,10 @@ public class Result extends AppCompatActivity {
     // The chooser
     private Intent chooser = null;
     private static final int SECONDARY_ACTIVITY_1 = 1;
-    private TextView score=null;
+    //private GifWebView score=null;
     private String puntuacion=null;
     private TextView resultado=null;
-    private Button historic=null;
+    private ImageButton historic=null;
     private Button tryAgain=null;
     private Button bestScore=null;
     private SQLiteDatabase dataBase=null;
@@ -45,13 +46,14 @@ public class Result extends AppCompatActivity {
         puntuacion=extras.getString("PARAM_1");
         dataBase=openOrCreateDatabase("Score", Context.MODE_PRIVATE, null);
         dataBase.execSQL("CREATE TABLE IF NOT EXISTS t_minitabla (SCORE VARCHAR)");
-        score=(TextView)findViewById(R.id.textScore);
+        //score=(TextView)findViewById(R.id.textScore);
         if(Integer.valueOf(puntuacion)>0) {
             dataBase.execSQL("INSERT INTO t_minitabla VALUES ("+puntuacion+")");
         }
         resultado=(TextView) findViewById(R.id.textPoints);
         resultado.setText(puntuacion);
-        historic=(Button)findViewById(R.id.buttonHistoric);
+        historic=(ImageButton)findViewById(R.id.imageButtonH);
+        //historic.setBackgroundResource(R.drawable.historic);
         //bestScore=(Button)findViewById(R.id.buttonBestScore);
         historic.setOnClickListener(new View.OnClickListener() {
             @Override
