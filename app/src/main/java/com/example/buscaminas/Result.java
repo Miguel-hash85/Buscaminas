@@ -8,11 +8,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.BaseColumns;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,15 +30,20 @@ public class Result extends AppCompatActivity {
     private Intent intentImplicito = null;
     // The chooser
     private Intent chooser = null;
-    private static final int SECONDARY_ACTIVITY_1 = 1;
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
     //private GifWebView score=null;
     private String puntuacion=null;
     private TextView resultado=null;
-    private ImageButton historic=null;
-    private Button tryAgain=null;
-    private Button bestScore=null;
+    private ImageView score=null;
+    private ImageView historic=null;
+    private ImageView tryAgain=null;
+    private ImageView bestScore=null;
+    private ImageView smile=null;
     private SQLiteDatabase dataBase=null;
     private Cursor cursor=null;
+    private ImageView photo=null;
+    static final int CAPTURA_IMAGEN = 1;
+
 
 
     @Override
@@ -52,9 +60,18 @@ public class Result extends AppCompatActivity {
         }
         resultado=(TextView) findViewById(R.id.textPoints);
         resultado.setText(puntuacion);
-        historic=(ImageButton)findViewById(R.id.imageButtonH);
-        //historic.setBackgroundResource(R.drawable.historic);
-        //bestScore=(Button)findViewById(R.id.buttonBestScore);
+        score= (ImageView) findViewById(R.id.imageScore);
+        historic= (ImageView) findViewById(R.id.imageHistoric);
+        tryAgain= (ImageView) findViewById(R.id.imageTryAgain);
+        bestScore= (ImageView) findViewById(R.id.imageBest);
+        smile= (ImageView) findViewById(R.id.imageSmile);
+        photo= (ImageView) findViewById(R.id.imagePhoto);
+        smile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dispatchTakePictureIntent();
+            }
+        });
         historic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,7 +90,6 @@ public class Result extends AppCompatActivity {
 
             }
         });
-        tryAgain=(Button) findViewById(R.id.buttonTryAgain);
         tryAgain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,8 +100,7 @@ public class Result extends AppCompatActivity {
 
             }
         });
-
-        bestScore=(Button) findViewById(R.id.buttonBestScore);
+        bestScore=(ImageView) findViewById(R.id.imageBest);
         bestScore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,5 +114,23 @@ public class Result extends AppCompatActivity {
         });
 
     }
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            photo.setImageBitmap(imageBitmap);
+        }
+    }
+
 
 }

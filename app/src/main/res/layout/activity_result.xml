@@ -7,49 +7,25 @@
     android:background="@drawable/duke_background"
     tools:context=".Result">
 
-    <Button
-        android:id="@+id/buttonTryAgain"
-        android:layout_width="160dp"
-        android:layout_height="65dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="19dp"
-        android:backgroundTint="#817C7C"
-        android:text="@string/tryAgain"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButtonH" />
-
-    <Button
-        android:id="@+id/buttonBestScore"
-        android:layout_width="161dp"
-        android:layout_height="59dp"
-        android:layout_marginStart="18dp"
-        android:layout_marginTop="25dp"
-        android:backgroundTint="#817C7C"
-        android:text="@string/bestScore"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonTryAgain" />
-
     <TextView
         android:id="@+id/textPoints"
-        android:layout_width="172dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="42dp"
+        android:layout_width="74dp"
+        android:layout_height="53dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
         android:text="@string/points"
         android:textAlignment="center"
         android:textColor="#070505"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+        app:layout_constraintTop_toBottomOf="@+id/imageScore" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/imageScore"
         android:layout_width="132dp"
         android:layout_height="61dp"
-        android:layout_marginStart="35dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="19dp"
         android:layout_marginEnd="244dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -57,15 +33,54 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/score" />
 
-    <ImageButton
-        android:id="@+id/imageButtonH"
-        android:layout_width="216dp"
-        android:layout_height="62dp"
-        android:layout_marginStart="18dp"
-        android:layout_marginTop="39dp"
+    <ImageView
+        android:id="@+id/imageHistoric"
+        android:layout_width="177dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textPoints"
         app:srcCompat="@drawable/historic"
         tools:ignore="SpeakableTextPresentCheck" />
+
+    <ImageView
+        android:id="@+id/imageTryAgain"
+        android:layout_width="158dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageHistoric"
+        app:srcCompat="@drawable/try_again" />
+
+    <ImageView
+        android:id="@+id/imageBest"
+        android:layout_width="112dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageTryAgain"
+        app:srcCompat="@drawable/best" />
+
+    <ImageView
+        android:id="@+id/imageSmile"
+        android:layout_width="138dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageBest"
+        app:srcCompat="@drawable/smile" />
+
+    <ImageView
+        android:id="@+id/imagePhoto"
+        android:layout_width="75dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="38dp"
+        android:layout_marginTop="6dp"
+        app:layout_constraintStart_toEndOf="@+id/textPoints"
+        app:layout_constraintTop_toBottomOf="@+id/imageScore" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
