@@ -8,14 +8,17 @@ import android.app.SearchManager;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
+import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.provider.MediaStore;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.gridlayout.widget.GridLayout;
@@ -34,11 +37,12 @@ public class Game extends AppCompatActivity{
     //private ArrayList<ButtonXY> buttons = new ArrayList<>();
     private int cantidad = 0;
     private ImageButton buttonHelp;
-    private ImageButton buttonCount;
     private int buttonSize = 2000;
     private int numeros[][];
     private MediaPlayer mediaPlayer;
     private ImageButton buttonDuke;
+    private ImageView imageView;
+    private MediaRecorder recorder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,24 +51,57 @@ public class Game extends AppCompatActivity{
         getSupportActionBar().hide();
         setContentView(R.layout.activity_game);
         buttonClock = (Button) findViewById(R.id.buttonClock);
-        buttonCount = (ImageButton) findViewById(R.id.buttonCount);
+        imageView = (ImageView) findViewById(R.id.imageView);
         buttonDuke = (ImageButton) findViewById(R.id.buttonDuke);
+        buttonHelp = (ImageButton) findViewById(R.id.buttonHelp);
         buttonDuke.setImageDrawable(getDrawable(R.drawable.shut));
         buttonDuke.getBackground().setAlpha(25);
-        new CountDownTimer(300000, 1000) {
+        buttonDuke.setTranslationX(110);
+        buttonClock.setTranslationX(110);
+        imageView.setTranslationX(-60);
+        buttonHelp.setTranslationX(-60);
+        buttonDuke.animate().alpha(1).translationX(60).setDuration(2500).start();
+        buttonDuke.animate().alpha(1).translationX(-20).setDuration(1500).start();
+        buttonClock.animate().alpha(1).translationX(60).setDuration(2500).start();
+        buttonClock.animate().alpha(1).translationX(-20).setDuration(2500).start();
+        imageView.animate().alpha(1).translationX(30).setDuration(2500).start();
+        buttonHelp.animate().alpha(1).translationX(30).setDuration(2500).start();
+        //buttonCount.animate().alpha(1).translationX(-20).setDuration(2500).start();
+        new CountDownTimer(3000000, 100) {
 
             public void onTick(long millisUntilFinished) {
-                buttonClock.setText("" + millisUntilFinished / 1000);
+                buttonClock.setText("" + millisUntilFinished / 100);
             }
 
             public void onFinish() {
-                buttonClock.setText("done!");
+                    destaparBombas();
+                    Toast.makeText(getApplicationContext(), getString(R.string.txt_lose), Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(Game.this, Result.class);
+                    intent.putExtra("PARAM_1", "0");
+                    startActivity(intent);
+                    finish();
             }
         }.start();
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    // Creación del intent
+                    Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+                    // El vídeo se grabará en calidad baja (0)
+                    intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
+                    // Limitamos la duración de la grabación a 5 segundos
+                    intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 5);
+                    // Nos aseguramos de que haya una aplicación que pueda manejar el intent
+                    if (intent.resolveActivity(getPackageManager()) != null) {
+                        // Lanzamos el intent
+                        startActivity(intent);
+                    }
 
+
+            }
+        });
         Bundle extras = this.getIntent().getExtras();
         dificultad = extras.getInt("Level");
-        buttonHelp = (ImageButton) findViewById(R.id.buttonHelp);
         buttonHelp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,7 +171,7 @@ public class Game extends AppCompatActivity{
                 x = 5;
                 y = 5;
                 contador = 22;
-                buttonCount.setBackground(getDrawable(R.drawable.three));
+                imageView.setBackground(getDrawable(R.drawable.three));
                 buttonSize = buttonSize / (dificultad * 9);
                 inicializarCasillas();
                 break;
@@ -145,7 +182,7 @@ public class Game extends AppCompatActivity{
                 y = 6;
                 contador = 31;
                 buttonSize = (int) (buttonSize / (dificultad * 5.5));
-                buttonCount.setBackground(getDrawable(R.drawable.five));
+                imageView.setBackground(getDrawable(R.drawable.five));
                 inicializarCasillas();
                 break;
             case 3:
@@ -155,7 +192,7 @@ public class Game extends AppCompatActivity{
                 y = 7;
                 contador = 42;
                 buttonSize = (int) (buttonSize / (dificultad * 4.3));
-                buttonCount.setBackground(getDrawable(R.drawable.seven));
+                imageView.setBackground(getDrawable(R.drawable.seven));
                 inicializarCasillas();
                 break;
             default:

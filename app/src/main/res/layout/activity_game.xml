@@ -12,11 +12,9 @@
         android:id="@+id/buttonDuke"
         android:layout_width="56dp"
         android:layout_height="53dp"
-        android:layout_marginStart="196dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toBottomOf="@+id/buttonClock"
         tools:ignore="SpeakableTextPresentCheck" />
 
@@ -39,14 +37,12 @@
         android:id="@+id/gridLayout"
         android:layout_width="441dp"
         android:layout_height="489dp"
-        android:layout_marginTop="64dp"
         android:background="#8E7373"
         android:backgroundTint="#7C6D6D"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonCount">
+        app:layout_constraintStart_toStartOf="parent">
 
     </androidx.gridlayout.widget.GridLayout>
 
@@ -57,8 +53,6 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="34dp"
         android:layout_marginEnd="173dp"
-        android:layout_marginBottom="27dp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonCount"
         app:layout_constraintEnd_toStartOf="@+id/buttonClock"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -66,24 +60,15 @@
         app:srcCompat="@drawable/help"
         tools:ignore="SpeakableTextPresentCheck" />
 
-    <ImageButton
-        android:id="@+id/buttonCount"
-        android:layout_width="76dp"
-        android:layout_height="52dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonHelp"
-        tools:ignore="SpeakableTextPresentCheck" />
-
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="56dp"
-        android:layout_height="53dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="268dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonHelp"
-        app:srcCompat="@drawable/bomba" />
+        android:layout_width="129dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="194dp"
+        app:layout_constraintEnd_toStartOf="@+id/buttonDuke"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonHelp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
