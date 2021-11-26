@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.buscaminas">
 
     <application
@@ -27,5 +28,9 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
     </application>
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true"
+        tools:ignore="WrongManifestParent" />
 
 </manifest>
