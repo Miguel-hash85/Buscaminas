@@ -5,7 +5,7 @@
     android:id="@+id/constaintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/duke"
+    android:background="@drawable/duke_game"
     tools:context=".Game">
 
     <ImageButton

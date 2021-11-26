@@ -92,7 +92,7 @@
         android:layout_width="135dp"
         android:layout_height="53dp"
         android:layout_marginStart="138dp"
-        android:layout_marginTop="94dp"
+        android:layout_marginTop="42dp"
         android:layout_marginEnd="138dp"
         android:fontFamily="@font/virtucorp"
         android:text="@string/play"
