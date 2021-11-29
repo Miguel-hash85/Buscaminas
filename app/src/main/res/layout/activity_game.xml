@@ -61,7 +61,7 @@
         tools:ignore="SpeakableTextPresentCheck" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imageViewCount"
         android:layout_width="129dp"
         android:layout_height="56dp"
         android:layout_marginStart="16dp"
@@ -70,5 +70,26 @@
         app:layout_constraintEnd_toStartOf="@+id/buttonDuke"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonHelp" />
+
+    <ImageView
+        android:id="@+id/imageViewRec"
+        android:layout_width="129dp"
+        android:layout_height="76dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="14dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewCount"
+        app:srcCompat="@drawable/rec" />
+
+    <VideoView
+        android:id="@+id/videoView"
+        android:layout_width="91dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="159dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageViewRec"
+        app:layout_constraintTop_toBottomOf="@+id/buttonDuke" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

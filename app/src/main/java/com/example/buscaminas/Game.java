@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import androidx.gridlayout.widget.GridLayout;
 
@@ -41,8 +42,11 @@ public class Game extends AppCompatActivity{
     private int numeros[][];
     private MediaPlayer mediaPlayer;
     private ImageButton buttonDuke;
-    private ImageView imageView;
+    private ImageView imageViewCount;
     private MediaRecorder recorder;
+    private ImageView imageViewRec;
+    private static final int GRABAR_VIDEO=1;
+    private VideoView videoView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,20 +55,23 @@ public class Game extends AppCompatActivity{
         getSupportActionBar().hide();
         setContentView(R.layout.activity_game);
         buttonClock = (Button) findViewById(R.id.buttonClock);
-        imageView = (ImageView) findViewById(R.id.imageView);
+        imageViewCount = (ImageView) findViewById(R.id.imageViewCount);
+        imageViewRec = (ImageView) findViewById(R.id.imageViewRec);
         buttonDuke = (ImageButton) findViewById(R.id.buttonDuke);
         buttonHelp = (ImageButton) findViewById(R.id.buttonHelp);
         buttonDuke.setImageDrawable(getDrawable(R.drawable.shut));
         buttonDuke.getBackground().setAlpha(25);
         buttonDuke.setTranslationX(110);
         buttonClock.setTranslationX(110);
-        imageView.setTranslationX(-60);
+        imageViewCount.setTranslationX(-60);
         buttonHelp.setTranslationX(-60);
+        imageViewRec.setTranslationX(-60);
         buttonDuke.animate().alpha(1).translationX(60).setDuration(2500).start();
         buttonDuke.animate().alpha(1).translationX(-20).setDuration(1500).start();
         buttonClock.animate().alpha(1).translationX(60).setDuration(2500).start();
         buttonClock.animate().alpha(1).translationX(-20).setDuration(2500).start();
-        imageView.animate().alpha(1).translationX(30).setDuration(2500).start();
+        imageViewCount.animate().alpha(1).translationX(30).setDuration(2500).start();
+        imageViewRec.animate().alpha(1).translationX(30).setDuration(2500).start();
         buttonHelp.animate().alpha(1).translationX(30).setDuration(2500).start();
         //buttonCount.animate().alpha(1).translationX(-20).setDuration(2500).start();
         new CountDownTimer(3000000, 100) {
@@ -82,7 +89,7 @@ public class Game extends AppCompatActivity{
                     finish();
             }
         }.start();
-        imageView.setOnClickListener(new View.OnClickListener() {
+        imageViewRec.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                     // Creación del intent
@@ -94,7 +101,7 @@ public class Game extends AppCompatActivity{
                     // Nos aseguramos de que haya una aplicación que pueda manejar el intent
                     if (intent.resolveActivity(getPackageManager()) != null) {
                         // Lanzamos el intent
-                        startActivity(intent);
+                        startActivityForResult(intent,GRABAR_VIDEO);
                     }
 
 
@@ -171,7 +178,7 @@ public class Game extends AppCompatActivity{
                 x = 5;
                 y = 5;
                 contador = 22;
-                imageView.setBackground(getDrawable(R.drawable.three));
+                imageViewCount.setBackground(getDrawable(R.drawable.three));
                 buttonSize = buttonSize / (dificultad * 9);
                 inicializarCasillas();
                 break;
@@ -182,7 +189,7 @@ public class Game extends AppCompatActivity{
                 y = 6;
                 contador = 31;
                 buttonSize = (int) (buttonSize / (dificultad * 5.5));
-                imageView.setBackground(getDrawable(R.drawable.five));
+                imageViewCount.setBackground(getDrawable(R.drawable.five));
                 inicializarCasillas();
                 break;
             case 3:
@@ -192,7 +199,7 @@ public class Game extends AppCompatActivity{
                 y = 7;
                 contador = 42;
                 buttonSize = (int) (buttonSize / (dificultad * 4.3));
-                imageView.setBackground(getDrawable(R.drawable.seven));
+                imageViewCount.setBackground(getDrawable(R.drawable.seven));
                 inicializarCasillas();
                 break;
             default:
@@ -281,11 +288,15 @@ public class Game extends AppCompatActivity{
         //colocarMinas();
     }
 
-    /* @Override
-     protected void onResume() {
-         super.onResume();
-         Bundle savedInstanceState
-     }*/
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GRABAR_VIDEO && resultCode == RESULT_OK) {
+            videoView = (VideoView)findViewById(R.id.videoView) ;
+            videoView.setVideoURI(data.getData());
+            videoView.start();
+        }
+    }
     private void talkingDuke() {
         mediaPlayer.start();
         buttonDuke.setImageDrawable(getDrawable(R.drawable.loud));
