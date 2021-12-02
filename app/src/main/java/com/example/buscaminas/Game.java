@@ -112,17 +112,8 @@ public class Game extends AppCompatActivity{
         buttonHelp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intentImplicito = new Intent();
-                intentImplicito.setAction(Intent.ACTION_WEB_SEARCH);
-                intentImplicito.putExtra(SearchManager.QUERY, getString(R.string.urlHelp));
-                chooser = Intent.createChooser(intentImplicito, getString(R.string.txt_intent_app));
-                if (chooser.resolveActivity(getPackageManager()) != null) {
-
-                    startActivity(chooser);
-
-                } else {
-                    Toast.makeText(getApplicationContext(), getString(R.string.txt_nav), Toast.LENGTH_LONG).show();
-                }
+                Intent intent = new Intent(Game.this, VideoTutorial.class);
+                startActivity(intent);
             }
         });
         buttonDuke.setOnClickListener(new View.OnClickListener() {

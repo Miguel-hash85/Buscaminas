@@ -14,7 +14,7 @@
     <string name="txt_win">You won!!!!</string>
     <string name="txt_lose">You lose!!!!</string>
     <string name="txt_fail">A problem generating the game has ocurred</string>
-    <string name="urlHelp">https://buscaminas.eu/reglas</string>
+    <string name="urlHelp">https://drive.google.com/file/d/1qV__SLP75wzdOsABFoHNdV9Sa0XurANB/view?usp=sharing</string>
 
 
     <string name="score">SCORE:</string>
@@ -26,5 +26,14 @@
     <string name="txt_intent_app">Choose App</string>
     <string name="txt_nav">No browser available</string>
     <string name="txt_no_score">No avaliable score</string>
+    <string name="title_activity_video_tutorial">VideoTutorial</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
 </resources>

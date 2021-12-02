@@ -17,6 +17,7 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
+import android.transition.Explode;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -67,25 +68,26 @@ public class MainActivity extends AppCompatActivity {
                     mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.annoying);
                     mediaPlayer.start();
                 } else {
+
                     progress.setMessage("Please Wait Loading..."); // creating message
 
-                    progress.setProgressStyle(ProgressDialog.STYLE_SPINNER); // style of indicator
-                    progress.setIndeterminate(true);
-                    progress.show();
-                    new Thread() {
+                      progress.setProgressStyle(ProgressDialog.STYLE_SPINNER); // style of indicator
+                        progress.setIndeterminate(true);
+                      progress.show();
+                       new Thread() {
 
-                        public void run() {
-                            try {
-                                Thread.sleep(2000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
+                         public void run() {
+                           try {
+                              Thread.sleep(500);
+                         } catch (InterruptedException e) {
+                             e.printStackTrace();
+                        }
                             intent = new Intent(MainActivity.this, Game.class);
                             intent.putExtra("Level", level);
                             startActivity(intent);
-                            progress.dismiss();
+                           progress.dismiss();
                         }
-                    }.start();
+                      }.start();
                 }
             }
         });
