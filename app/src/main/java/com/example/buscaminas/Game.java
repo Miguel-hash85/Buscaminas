@@ -60,6 +60,8 @@ public class Game extends AppCompatActivity{
         buttonDuke = (ImageButton) findViewById(R.id.buttonDuke);
         buttonHelp = (ImageButton) findViewById(R.id.buttonHelp);
         buttonDuke.setImageDrawable(getDrawable(R.drawable.shut));
+        videoView = (VideoView)findViewById(R.id.videoView) ;
+        videoView.setAlpha(0);
         buttonDuke.getBackground().setAlpha(25);
         buttonDuke.setTranslationX(110);
         buttonClock.setTranslationX(110);
@@ -283,8 +285,8 @@ public class Game extends AppCompatActivity{
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GRABAR_VIDEO && resultCode == RESULT_OK) {
-            videoView = (VideoView)findViewById(R.id.videoView) ;
             videoView.setVideoURI(data.getData());
+            videoView.setAlpha(1F);
             videoView.start();
         }
     }

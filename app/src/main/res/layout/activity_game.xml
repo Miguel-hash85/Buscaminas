@@ -92,4 +92,19 @@
         app:layout_constraintStart_toEndOf="@+id/imageViewRec"
         app:layout_constraintTop_toBottomOf="@+id/buttonDuke" />
 
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/imageView"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="119dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="26dp"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/uzi"
+        app:layout_constraintBottom_toTopOf="@+id/videoView"
+        app:layout_constraintEnd_toStartOf="@+id/buttonDuke"
+        app:layout_constraintStart_toEndOf="@+id/imageViewCount"
+        app:layout_constraintTop_toBottomOf="@+id/buttonClock"
+         />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
