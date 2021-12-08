@@ -19,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blogspot.atifsoftwares.animatoolib.Animatoo;
+
 /**
  * This class shows the final score and let the player play again. You can aditionally check an historic rainking.
  * @author Miguel Sánchez
@@ -96,6 +98,7 @@ public class Result extends AppCompatActivity {
 
                 Intent intent= new Intent(Result.this, MainActivity.class);
                 startActivity(intent);
+                Animatoo.animateWindmill(Result.this);
                 finish();
 
             }

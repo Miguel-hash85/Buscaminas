@@ -24,6 +24,8 @@ import android.widget.VideoView;
 
 import androidx.gridlayout.widget.GridLayout;
 
+import com.blogspot.atifsoftwares.animatoolib.Animatoo;
+
 public class Game extends AppCompatActivity{
     private GridLayout gridLayout;
     private Intent intentImplicito = null;
@@ -222,6 +224,7 @@ public class Game extends AppCompatActivity{
                             Intent intent = new Intent(Game.this, Result.class);
                             intent.putExtra("PARAM_1", "0");
                             startActivity(intent);
+                            Animatoo.animateSpin(Game.this);
                             finish();
                         } else if (btn.getText().equals("0")) {
                             textColor(btn);
@@ -314,6 +317,7 @@ public class Game extends AppCompatActivity{
         Intent intent = new Intent(Game.this, Result.class);
         intent.putExtra("PARAM_1", buttonClock.getText());
         startActivity(intent);
+        Animatoo.animateSplit(Game.this);
         finish();
     }
 
